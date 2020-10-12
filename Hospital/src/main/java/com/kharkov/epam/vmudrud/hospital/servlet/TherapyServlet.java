@@ -40,16 +40,11 @@ public class TherapyServlet extends HttpServlet {
     	log.info("doGet metod in therapy servlet is working");
         HttpSession session = request.getSession();
         User loginedUser = MyUtils.getLoginedUser(session);
-        
-        // Not logged in
         if (loginedUser == null || !loginedUser.getRole().equals("doctor") &&  !loginedUser.getRole().equals("nurse")) {
-            // Redirect to login page.
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        // Store info to the request attribute before forwarding.
         request.setAttribute("user", loginedUser);
-    	
         String errorString = null;
         List<Therapy> list = null;
         TherapyController therapyController = null;

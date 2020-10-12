@@ -47,9 +47,7 @@ public class TherapyNurse extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        // Store info to the request attribute before forwarding.
         request.setAttribute("user", loginedUser);
-    	
         String errorString = null;
         List<Therapy> list = null;
         TherapyController therapyController = null;

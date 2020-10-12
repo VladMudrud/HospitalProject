@@ -20,7 +20,7 @@
     <br>
     <br>
     <p style="color: red;">${errorString}</p>
-    <table border="1" cellpadding="5" cellspacing="1" >
+    <table border="1" >
        <tr>
           <th>First Name</th>
           <th>Second Name</th>

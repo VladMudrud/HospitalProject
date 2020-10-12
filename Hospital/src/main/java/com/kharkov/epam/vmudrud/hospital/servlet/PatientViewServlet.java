@@ -87,19 +87,14 @@ public class PatientViewServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/myPatients");
             return;
         }
-
         if ((request.getParameter("diagnosis") == null || request.getParameter("diagnosis").equals("Unknown") || request.getParameter("diagnosis").equals("")) && request.getParameter("type").equals("dishcharge")) {
             log.error("diagnosis is NULL");
             String errorString="Diagnosis is unknown, we cannot discharge the patient";
             response.sendRedirect(request.getContextPath() + "/patientView" + "?id=" + request.getParameter("id") + "&error=" + errorString);
             return;
         }
-		// extract command name from the request
 		String commandName = request.getParameter("type");
-		// obtain command object by its name
 		Command command = CommandContainer.get(commandName);
-
-		// execute command and get forward address
 		command.execute(request, response);
 		if (!request.getParameter("type").equals("dishcharge")) {
 		doGet(request, response);

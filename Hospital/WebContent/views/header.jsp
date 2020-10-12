@@ -16,7 +16,6 @@
   </div>
  
   <div style="float: right; padding: 10px; text-align: right; "> 
-     <!-- User store in session with attribute: loginedUser -->
      <form action="${pageContext.request.contextPath}/header" method="POST">
      
      <label> <strong> Hello ${user.role} ${user.login} &nbsp; </strong>  </label>

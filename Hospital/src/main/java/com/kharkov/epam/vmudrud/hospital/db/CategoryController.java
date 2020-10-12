@@ -22,31 +22,31 @@ public class CategoryController extends AbstractController<Category, Integer> {
 
 	@Override
 	public List<Category> getAll() throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 
 	@Override
 	public Category update(Category entity) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 
 	@Override
 	public Category getEntityById(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 
 	@Override
 	public boolean delete(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return false;
 	}
 
 	@Override
 	public boolean create(Category entity) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return false;
 	}
 

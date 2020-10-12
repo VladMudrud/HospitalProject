@@ -11,18 +11,14 @@
  <body>   
  	<FORM action="${pageContext.request.contextPath}/therapy" method="POST">
     <input type="hidden" name="type" id="type" value="compTreatment"> 
- 	
     <p style="color: red;">${errorString}</p>
- 
-    <table border="1" cellpadding="5" cellspacing="1" >
+    <table border="1">
        <tr>
           <th>Patient</th>
           <th>Diagnosis</th>
           <th>Treatment</th>
           <th>Type</th>
           <th>Action</th>
-          
-          
        </tr>
        <c:forEach items="${therapyList}"  var="therapy" >
           <tr>

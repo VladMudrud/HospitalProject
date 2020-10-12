@@ -44,19 +44,13 @@ public class CookieFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
- 
         User userInSession = MyUtils.getLoginedUser(session);
-        // 
         if (userInSession != null) {
             session.setAttribute("COOKIE_CHECKED", "CHECKED");
             chain.doFilter(request, response);
             return;
         }
- 
-        // Connection was created in JDBCFilter.
         Connection conn = MyUtils.getStoredConnection(request);
- 
-        // Flag check cookie
         String checked = (String) session.getAttribute("COOKIE_CHECKED");
         if (checked == null && conn != null) {
         	String userId;
@@ -81,10 +75,8 @@ public class CookieFilter implements Filter {
 	            	throw new ServletException();
 				}
 			}
-            // Mark checked Cookies.
             session.setAttribute("COOKIE_CHECKED", "CHECKED");
         }
- 
         chain.doFilter(request, response);
     }
  

@@ -31,22 +31,13 @@ public class MyPatientSortServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        
-    	log.info("doPost metod in MyPatientSort servlet is working");
-
- 
-        // Check User has logged on
+    	log.info("doPost metod in MyPatientSort servlet is working"); 
         User loginedUser = MyUtils.getLoginedUser(session);
- 
-        // Not logged in
         if (loginedUser == null || !loginedUser.getRole().equals("doctor")) {
-            // Redirect to login page.
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        // Store info to the request attribute before forwarding.
         request.setAttribute("user", loginedUser);
- 
         response.sendRedirect(request.getContextPath() + "/myPatients" + "?sort=" + request.getParameter("sort"));
 	}
 

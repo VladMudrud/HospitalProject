@@ -32,22 +32,17 @@ public class LoginServlet extends HttpServlet {
         super();
     }
  
-    // Show Login page.
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
  
-        // Forward to /WEB-INF/views/loginView.jsp
-        // (Users can not access directly into JSP pages placed in WEB-INF)
     	log.info("doGet metod in login servlet is working");
         RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/index.jsp");
  
         dispatcher.forward(request, response);
  
     }
- 
-    // When the user enters userName & password, and click Submit.
-    // This method will be executed.
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -56,20 +51,16 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         String rememberMeStr = request.getParameter("rememberMe");
         boolean remember = "Y".equals(rememberMeStr);
- 
         User user = null;
         boolean hasError = false;
         String errorString = null;
- 
         if (login == null || password == null || login.length() == 0 || password.length() == 0) {
             hasError = true;
             errorString = "No date to login";
         	log.info("SQL problems");
-
         } else {
         	UserController userController=null;
             try {
-                // Find the user in the DB.
 				userController = new UserController();
                 user = userController.getUserByLoginAndPassword(login, password);
             } catch (SQLException e) {
@@ -91,34 +82,23 @@ public class LoginServlet extends HttpServlet {
 			}
             
         }
-        // If error, forward to /WEB-INF/views/login.jsp
         if (hasError) {
             user = new User();
             user.setLogin(login);
             user.setPassword(password);
- 
-            // Store information in request attribute, before forward.
             request.setAttribute("errorString", errorString);
             request.setAttribute("user", user);
- 
-            // Forward to /WEB-INF/views/login.jsp
             RequestDispatcher dispatcher //
                     = this.getServletContext().getRequestDispatcher("/index.jsp");
  
             dispatcher.forward(request, response);
         }
-        // If no error
-        // Store user information in Session
-        // And redirect to userInfo page.
         else {
             HttpSession session = request.getSession();
             MyUtils.storeLoginedUser(session, user);
- 
-            // If user checked "Remember me".
             if (remember) {
                 MyUtils.storeUserCookie(response, user);
             }
-            // Else delete cookie.
             else {
                 MyUtils.deleteUserCookie(response);
             }

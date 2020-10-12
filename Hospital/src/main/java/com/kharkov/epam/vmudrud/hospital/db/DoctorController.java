@@ -23,31 +23,31 @@ public class DoctorController extends AbstractController<Doctor, Integer> {
 
 	@Override
 	public List<Doctor> getAll() throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 
 	@Override
 	public Doctor update(Doctor entity) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 
 	@Override
 	public Doctor getEntityById(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 
 	@Override
 	public boolean delete(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return false;
 	}
 
 	@Override
 	public boolean create(Doctor entity) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return false;
 	}
 

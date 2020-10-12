@@ -39,9 +39,7 @@ public class MyPatientsServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User loginedUser = MyUtils.getLoginedUser(session);
         
-        // Not logged in
         if (loginedUser == null || !loginedUser.getRole().equals("doctor")) {
-            // Redirect to login page.
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
@@ -49,9 +47,7 @@ public class MyPatientsServlet extends HttpServlet {
         if (sort==null) {
         	sort="alphabet";
         }
-        // Store info to the request attribute before forwarding.
         request.setAttribute("user", loginedUser);
-    	
         String errorString = null;
         List<MedicalCard> list = null;
         MedicalCardController medicalCardController = null;
@@ -71,7 +67,6 @@ public class MyPatientsServlet extends HttpServlet {
 		}
         request.setAttribute("errorString", errorString);
         request.setAttribute("patientList", list);
-         
         RequestDispatcher dispatcher = request.getServletContext()
                 .getRequestDispatcher("/views/doctorMenuMyPatients.jsp");
         dispatcher.forward(request, response);
@@ -84,7 +79,6 @@ public class MyPatientsServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User loginedUser = MyUtils.getLoginedUser(session);
         if (loginedUser == null || !loginedUser.getRole().equals("doctor")) {
-            // Redirect to login page.
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }

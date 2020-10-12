@@ -62,7 +62,7 @@ public class TherapyController extends AbstractController<Therapy, Integer> {
 	}
 	@Override
 	public Therapy update(Therapy entity) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 	@Override
@@ -102,7 +102,7 @@ public class TherapyController extends AbstractController<Therapy, Integer> {
 	}
 	@Override
 	public boolean delete(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return false;
 	}
 	@Override

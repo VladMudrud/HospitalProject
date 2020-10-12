@@ -25,13 +25,13 @@ public class StaffController extends AbstractController<Staff, Integer> {
 
 	@Override
 	public List<Staff> getAll() throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 
 	@Override
 	public Staff update(Staff entity) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 
@@ -62,13 +62,13 @@ public class StaffController extends AbstractController<Staff, Integer> {
 
 	@Override
 	public boolean delete(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return false;
 	}
 
 	@Override
 	public boolean create(Staff entity) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return false;
 	}
 

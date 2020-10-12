@@ -9,9 +9,6 @@ import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 
-import com.kharkov.epam.vmudrud.hospital.db.entity.Doctor;
-
-
 
 public abstract class AbstractController<E, K> {
 	

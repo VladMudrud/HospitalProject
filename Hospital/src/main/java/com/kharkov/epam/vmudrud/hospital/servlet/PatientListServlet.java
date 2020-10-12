@@ -39,7 +39,6 @@ public class PatientListServlet extends HttpServlet {
         User loginedUser = MyUtils.getLoginedUser(session);
         
         if (loginedUser == null || !loginedUser.getRole().equals("doctor")) {
-            // Redirect to login page.
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }

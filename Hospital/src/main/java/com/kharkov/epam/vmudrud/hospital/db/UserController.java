@@ -51,7 +51,7 @@ public class UserController extends AbstractController<User, Integer> {
 
 	@Override
 	public User update(User entity) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 	
@@ -116,7 +116,7 @@ public class UserController extends AbstractController<User, Integer> {
 
 	@Override
 	public boolean delete(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return false;
 	}
 

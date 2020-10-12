@@ -13,27 +13,25 @@
 }  
 .btn-group button {
 	font-size: 18px;  
-    background-color: white; /* Green background */
-    border: 3px solid black; /* Green border */
-    color: dodgerblue; /* White text */
-    padding: 10px 24px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    float: left; /* Float the buttons side by side */
+    background-color: white; 
+    border: 3px solid black;
+    color: dodgerblue; 
+    padding: 10px 24px; 
+    cursor: pointer; 
+    float: left; 
 }
 .btn-group button:not(:last-child) {
-    border-right: none; /* Prevent double borders */
+    border-right: none; 
 }
 
 
 
-/* Clear floats (clearfix hack) */
 .btn-group:after {
     content: "";
     clear: both;
     display: table;
 }
 
-/* Add a background color on hover */
 .btn-group button:hover {
     background-color: LightGrey;
 }
@@ -114,10 +112,7 @@ select{
     font-size: 16px;  
     border-color: black; 
     border-style: solid;
-  	font-weight: bold; 
-
-  	
-  	
+  	font-weight: bold;   	
   	
 }  
 span{  

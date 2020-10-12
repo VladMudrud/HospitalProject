@@ -63,6 +63,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 
 	@Override
 	public Patient update(Patient entity) throws SQLException {
+		log.info("this empty");
 		return null;
 	}
 
@@ -103,11 +104,13 @@ public class PatientController extends AbstractController<Patient, Integer> {
 
 	@Override
 	public boolean delete(Integer id) throws SQLException {
+		log.info("this empty");
 		return false;
 	}
 
 	@Override
 	public boolean create(Patient entity) throws SQLException {
+		log.info("this empty");
 		return false;
 	}
 

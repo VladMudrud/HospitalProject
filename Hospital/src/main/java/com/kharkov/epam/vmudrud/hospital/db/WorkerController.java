@@ -20,27 +20,27 @@ public class WorkerController extends AbstractController<Worker, Integer> {
 	}
 	@Override
 	public List<Worker> getAll() throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 	@Override
 	public Worker update(Worker entity) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 	@Override
 	public Worker getEntityById(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return null;
 	}
 	@Override
 	public boolean delete(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return false;
 	}
 	@Override
 	public boolean create(Worker entity) throws SQLException {
-		// TODO Auto-generated method stub
+		log.info("this empty");
 		return false;
 	}
 	
