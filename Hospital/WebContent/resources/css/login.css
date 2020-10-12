@@ -1,0 +1,130 @@
+ body  
+{  
+    margin: 0;  
+    padding: 0;  
+    background-color: LightGrey;  
+    font-family: 'Arial';  
+}  
+.title{  
+    text-align: center;  
+    color: #00BFFF; 
+    font-size: 120px;  
+    padding: 20px;  
+}  
+.btn-group button {
+	font-size: 18px;  
+    background-color: white; /* Green background */
+    border: 3px solid black; /* Green border */
+    color: dodgerblue; /* White text */
+    padding: 10px 24px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    float: left; /* Float the buttons side by side */
+}
+.btn-group button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+}
+
+
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+    background-color: LightGrey;
+}
+.login{  
+        width: 382px;  
+        overflow: hidden;  
+        margin: auto;  
+        margin: 20 0 0 450px;  
+        padding: 80px;  
+        background: white;  
+        border-radius: 15px ;  
+        border-color: black; 
+    	border-style: solid;
+} 
+
+h1{  
+    text-align: left;  
+    color: dodgerblue; 
+    font-size: 30px;  
+    text-shadow: 3px 5px 6px #000000;
+}   
+hr{  
+	color: black;
+    height: 5px;
+}  
+h2{  
+    text-align: center;  
+    color: dodgerblue; 
+    font-size: 60px;  
+    padding: 20px;  
+    text-shadow: 3px 5px 6px #000000;
+}  
+label{  
+	font-family: 'Arial';  
+    color: black;  
+    font-size: 17px;  
+}  
+#Uname{  
+    width: 300px;  
+    height: 30px;  
+    border: none;  
+    border-radius: 6px;  
+     border-color: black; 
+    border-style: solid;  
+     
+}  
+#Pass{  
+    width: 300px;  
+    height: 30px;  
+    border: none;  
+    border-radius: 6px;  
+    border-color: black; 
+    border-style: solid;  
+}  
+select{  
+        border: none;  
+}  
+#log{  
+    width: 300px;  
+    height: 50px;  
+    border: none;  
+    border-radius: 17px;  
+    color: black;  
+    font-size: 25px;  
+    border-color: black; 
+    border-style: solid;
+  	font-weight: bold; 
+  	
+}  
+
+#logout{  
+	
+    width: 100px;  
+    height: 30px;  
+    border: none;  
+    border-radius: 17px;  
+    color: black;  
+    font-size: 16px;  
+    border-color: black; 
+    border-style: solid;
+  	font-weight: bold; 
+
+  	
+  	
+  	
+}  
+span{  
+    color: black;  
+    font-size: 17px; 
+}  
+a{  
+    float: right;  
+    background-color: grey;  
+}      

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/${src.dir}" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.21" level="project" />
+    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-annotations-api:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-catalina-ant:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-catalina-ha:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-juli:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-ssi:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-storeconfig:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-tribes:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-catalina:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jdt:ecj:3.21.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-el-api:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jasper-el:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jasper:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jaspic-api:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jsp-api:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-servlet-api:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-api:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-coyote:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-dbcp:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-i18n-cs:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-i18n-de:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-i18n-es:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-i18n-fr:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-i18n-ja:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-i18n-ko:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-i18n-pt-BR:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-i18n-ru:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-i18n-zh-CN:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jdbc:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jni:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-util-scan:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-util:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-websocket:9.0.38" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-websocket-api:9.0.38" level="project" />
+  </component>
+</module>
