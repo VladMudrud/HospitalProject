@@ -163,4 +163,30 @@ public class MedicalCardController extends AbstractController<MedicalCard, Integ
 			return "ORDER BY p.first_name";
 		}
 	}
+	public MedicalCard getEntityByPatientId(Integer id) throws SQLException {
+		PreparedStatement pstm=null;
+		try {
+			pstm = getPrepareStatement(Query.SELECT_MEDICAL_CARD_BY_PATIENT_ID.value());
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				MedicalCard medicalCard = new MedicalCard();
+				PatientController patientController = new PatientController(getConnectionPool(), getConnection());
+				Integer medCardid = rs.getInt("id");
+				String diagnosis = rs.getString("diagnosis");
+				Integer patient_id = rs.getInt("patient_id");
+				medicalCard.setId(medCardid);
+				medicalCard.setDiagnosis(diagnosis);
+				medicalCard.setPatient(patientController.getEntityById(patient_id));
+				return medicalCard;
+			} 
+        } catch (SQLException e) {
+			log.error("Can not execute query", e);	
+			throw new SQLException();
+		} finally {
+			closePrepareStatement(pstm);
+		}
+		log.error("Cann't find the medical card");	
+		throw new NoSuchElementException();
+	}
 }

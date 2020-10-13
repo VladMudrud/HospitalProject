@@ -37,7 +37,7 @@ public class DiagnosisCommand extends Command {
 
         try {
         	medicalCardController = new MedicalCardController();
-        	medicalCard = medicalCardController.getEntityById(id);
+        	medicalCard = medicalCardController.getEntityByPatientId(id);
         	medicalCard.setDiagnosis(request.getParameter("diagnosis"));
         	medicalCardController.update(medicalCard);
         } catch (SQLException e) {

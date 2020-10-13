@@ -42,6 +42,7 @@ public class PatientViewServlet extends HttpServlet {
             return;
         }
         Integer id = Integer.valueOf(request.getParameter("id"));
+    	log.trace("id ==> " + id);
         if (id == null) {
             response.sendRedirect(request.getContextPath() + "/myPatients");
             return;
@@ -52,7 +53,7 @@ public class PatientViewServlet extends HttpServlet {
         MedicalCard medicalCard = new MedicalCard();
         try {
         	medicalCardController = new MedicalCardController();
-        	medicalCard = medicalCardController.getEntityById(id);
+        	medicalCard = medicalCardController.getEntityByPatientId(id);
         } catch (SQLException e) {
             log.error("Problem with MySql server");
             errorString = "Problem with MySql server";

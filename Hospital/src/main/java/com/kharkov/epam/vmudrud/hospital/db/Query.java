@@ -17,14 +17,15 @@ public enum Query {
 	INSERT_USER("INSERT INTO user (login, password, role) VALUES (?, ?, ?)"),
 	INSERT_THERAPY("INSERT INTO `hospital`.`therapy` (`title`, `type`, `status`, `medical card_id`) VALUES (?, ?, ?, ?)"),
 	SELECT_USER_BY_ID("SELECT * FROM user WHERE id=?"),
-	SELECT_MEDICAL_CARD_BY_ID("SELECT mc.id, mc.diagnosis, mc.patient_id FROM `medical card` mc join patient p on mc.patient_id=p.id WHERE p.id=?"),
+	SELECT_MEDICAL_CARD_BY_ID("SELECT mc.id, mc.diagnosis, mc.patient_id FROM `medical card` mc join patient p on mc.patient_id=p.id WHERE mc.id=?"),
 
 	SELECT_PATIENT_BY_ID("SELECT * FROM patient WHERE id=?;"),
 	SELECT_STAFF_BY_USER_ID("SELECT s.id, s.user_id FROM staff s join `user` u on s.user_id=u.id WHERE u.id=?"),
 	SELECT_THERAPY_BY_ID("SELECT * FROM therapy WHERE id=?"),
 	SELECT_STAFF_BY_ID("SELECT * FROM staff WHERE id=?"),
 	SELECT_USER_BY_LOGIN_AND_PASSWORD("SELECT * FROM `user` WHERE login=? and `password`=?"),
-	DONE_THERAPY("UPDATE `hospital`.`therapy` SET `status` = 'done', `staff_id` = ? WHERE (`id` = ?)");
+	DONE_THERAPY("UPDATE `hospital`.`therapy` SET `status` = 'done', `staff_id` = ? WHERE (`id` = ?)"), 
+	SELECT_MEDICAL_CARD_BY_PATIENT_ID("SELECT mc.id, mc.diagnosis, mc.patient_id FROM `medical card` mc join patient p on mc.patient_id=p.id WHERE p.id=?");
 	private String value;
 
 	Query(String value) {
