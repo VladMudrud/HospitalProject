@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
         if (login == null || password == null || login.length() == 0 || password.length() == 0) {
             hasError = true;
             errorString = "No date to login";
-        	log.info("SQL problems");
+        	log.info("No date to login");
         } else {
         	UserController userController=null;
             try {
@@ -77,7 +77,7 @@ public class LoginServlet extends HttpServlet {
 					userController.returnConnectionInPool();
 				} catch (SQLException e) {
 	            	log.info("Connection pool not returned");
-	            	throw new ServletException();
+	                errorString = "Some problems on server";
 				}
 			}
             
@@ -90,7 +90,6 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("user", user);
             RequestDispatcher dispatcher //
                     = this.getServletContext().getRequestDispatcher("/index.jsp");
- 
             dispatcher.forward(request, response);
         }
         else {
@@ -102,12 +101,11 @@ public class LoginServlet extends HttpServlet {
             else {
                 MyUtils.deleteUserCookie(response);
             }
- 
-            whichRoleUser(request, response, user);
+            whichRoleUserAndRedirect(request, response, user);
         }
     }
     
-    protected void whichRoleUser(HttpServletRequest request, HttpServletResponse response, User user)
+    protected void whichRoleUserAndRedirect(HttpServletRequest request, HttpServletResponse response, User user)
             throws ServletException, IOException {
     	String roleString = user.getRole();
     	if (roleString.equals("doctor")) {
@@ -125,8 +123,10 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/therapyNurse");
             return;
     	}
+        String errorString = "User has unknown role";
+        request.setAttribute("errorString", errorString);
     	log.error("user is unknown");
-    	throw new ServletException();
+        response.sendRedirect(request.getContextPath() + "/errorPage.jsp");
  
     }
  
