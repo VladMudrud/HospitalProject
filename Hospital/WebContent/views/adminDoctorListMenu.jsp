@@ -5,13 +5,14 @@
    <head>
        <head>
       <meta charset="UTF-8">
-      <title>doctorMenu</title>
+      <title>DoctorMenuDoctorList</title>
       <link rel="stylesheet" type="text/css" href="resources/css/login.css">
+   </head>
    </head>
    <body style="background: White">
    <jsp:include page="header.jsp"></jsp:include>
-   <jsp:include page="doctorButtons.jsp"></jsp:include>
-   <jsp:include page="patientList.jsp"></jsp:include>
+   <jsp:include page="adminButtons.jsp"></jsp:include>
+   <jsp:include page="adminDoctorList.jsp"></jsp:include>
    </body>
    
 </html>

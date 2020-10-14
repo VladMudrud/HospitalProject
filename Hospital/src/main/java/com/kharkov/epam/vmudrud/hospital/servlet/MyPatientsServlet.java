@@ -35,7 +35,7 @@ public class MyPatientsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException { 
-    	log.info("doGet metod in patient list servlet is working");
+    	log.info("doGet metod in myPatients servlet is working");
         HttpSession session = request.getSession();
         User loginedUser = MyUtils.getLoginedUser(session);
         
@@ -75,7 +75,7 @@ public class MyPatientsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	log.info("doPost metod in patient list servlet is working");
+    	log.info("doPost metod in myPatients servlet is working");
         HttpSession session = request.getSession();
         User loginedUser = MyUtils.getLoginedUser(session);
         if (loginedUser == null || !loginedUser.getRole().equals("doctor")) {

@@ -14,6 +14,12 @@
    <form method="GET" action="${pageContext.request.contextPath}/patientList?sort=alphabet">   
  	 <button>Patient List</button>
    </form>
+      <form method="GET" action="${pageContext.request.contextPath}/doctorList?sort=alphabet">   
+ 	 <button>Doctor List</button>
+   </form>
+   <form method="GET" action="${pageContext.request.contextPath}/adminAddPatientMenu">   
+ 	 <button>Add Patient</button>
+   </form>
    </div>
    </body>
    

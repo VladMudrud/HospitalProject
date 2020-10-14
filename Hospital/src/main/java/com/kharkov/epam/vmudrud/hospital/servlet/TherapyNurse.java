@@ -39,7 +39,7 @@ public class TherapyNurse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException { 
-    	log.info("doGet metod in therapy servlet is working");
+    	log.info("doGet metod in therapyNurse servlet is working");
         HttpSession session = request.getSession();
         User loginedUser = MyUtils.getLoginedUser(session);
         
@@ -77,7 +77,7 @@ public class TherapyNurse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	log.info("doPost metod in therapy servlet is working");
+    	log.info("doPost metod in therapyNurse servlet is working");
     	HttpSession session = request.getSession();
         User loginedUser = MyUtils.getLoginedUser(session);
         if (loginedUser == null || !loginedUser.getRole().equals("nurse")) {

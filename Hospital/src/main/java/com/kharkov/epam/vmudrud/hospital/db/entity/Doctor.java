@@ -10,6 +10,8 @@ public class Doctor extends Person {
 	
 	private Category category;
 
+	private Integer numberOfPatients;
+
 	
 	public Doctor() {}
 	
@@ -51,7 +53,15 @@ public class Doctor extends Person {
 	
 	@Override
 	public String toString() {
-		return "Doctor ["+  "id=" + id  + ", firstName=" + firstName + ", secondName=" + secondName + ", age="  + age + ", gender="+ gender + ", staff=" + staff + ", category=" + category +"]";
+		return "Doctor ["+  "id=" + id  + ", firstName=" + firstName + ", secondName=" + secondName + ", age="  + age + ", gender="+ gender + ", staff=" + staff + ", category=" + category + ", numberOfPatients=" + numberOfPatients +"]";
+	}
+
+	public Integer getNumberOfPatients() {
+		return numberOfPatients;
+	}
+
+	public void setNumberOfPatients(Integer numberOfPatients) {
+		this.numberOfPatients = numberOfPatients;
 	}
 	
 

@@ -18,7 +18,7 @@ public enum Query {
 	INSERT_THERAPY("INSERT INTO `hospital`.`therapy` (`title`, `type`, `status`, `medical card_id`) VALUES (?, ?, ?, ?)"),
 	SELECT_USER_BY_ID("SELECT * FROM user WHERE id=?"),
 	SELECT_CATEGORY_BY_ID("SELECT * FROM category WHERE id=?"),
-
+	SELECT_ALL_DOCTORS_WITH_COUNT("SELECT d.id, d.first_name, d.second_name, d.age, d.gender, d.staff_id, d.category_id, (SELECT count(id) FROM patient WHERE patient.doctor_id=d.id) as NumberOfPatiens FROM doctor d join category c on d.category_id=c.id"),
 	SELECT_DOCTOR_BY_ID("SELECT * FROM doctor WHERE id=?"),
 	SELECT_MEDICAL_CARD_BY_ID("SELECT mc.id, mc.diagnosis, mc.patient_id FROM `medical card` mc join patient p on mc.patient_id=p.id WHERE mc.id=?"),
 
