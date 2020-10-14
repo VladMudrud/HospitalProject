@@ -95,7 +95,7 @@ public class TherapyServlet extends HttpServlet {
         String commandName = request.getParameter("type");
      	Command command = CommandContainer.get(commandName);
         command.execute(request, response);
-        doGet(request, response);
+        response.sendRedirect(request.getContextPath() + "/therapy");
     }
     
 }

@@ -45,7 +45,7 @@ public class Doctor extends Person {
 		this.staff = staff;
 	}
 	
-	public void setCategoryId(Category category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 	

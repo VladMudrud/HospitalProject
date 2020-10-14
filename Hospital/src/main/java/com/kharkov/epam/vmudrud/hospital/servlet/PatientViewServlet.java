@@ -37,7 +37,11 @@ public class PatientViewServlet extends HttpServlet {
     	log.info("doGet metod in patient view servlet is working");
         HttpSession session = request.getSession();
         User loginedUser = MyUtils.getLoginedUser(session);
-        if (loginedUser == null || !loginedUser.getRole().equals("doctor")) {
+        if (loginedUser == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+        if (!loginedUser.getRole().equals("doctor")) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
@@ -79,7 +83,11 @@ public class PatientViewServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User loginedUser = MyUtils.getLoginedUser(session);
 
-        if (loginedUser == null || !loginedUser.getRole().equals("doctor")) {
+        if (loginedUser == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+        if (!loginedUser.getRole().equals("doctor")) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
@@ -98,7 +106,7 @@ public class PatientViewServlet extends HttpServlet {
 		Command command = CommandContainer.get(commandName);
 		command.execute(request, response);
 		if (!request.getParameter("type").equals("dishcharge")) {
-		doGet(request, response);
+            response.sendRedirect(request.getContextPath() + "/patientView" + "?id=" + request.getParameter("id"));
 		} else {
             response.sendRedirect(request.getContextPath() + "/myPatients");
             return;

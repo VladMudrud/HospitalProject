@@ -115,7 +115,7 @@ public class LoginServlet extends HttpServlet {
     	}
     	if (roleString.equals("admin")) {
         	log.info("user is admin");
-            response.sendRedirect(request.getContextPath() + "/TherapyServlet");
+            response.sendRedirect(request.getContextPath() + "/patientList" + "?sort=alphabet");
             return;
     	}
     	if (roleString.equals("nurse")) {

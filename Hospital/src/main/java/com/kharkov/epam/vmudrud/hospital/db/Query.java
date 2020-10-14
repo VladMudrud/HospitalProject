@@ -17,6 +17,9 @@ public enum Query {
 	INSERT_USER("INSERT INTO user (login, password, role) VALUES (?, ?, ?)"),
 	INSERT_THERAPY("INSERT INTO `hospital`.`therapy` (`title`, `type`, `status`, `medical card_id`) VALUES (?, ?, ?, ?)"),
 	SELECT_USER_BY_ID("SELECT * FROM user WHERE id=?"),
+	SELECT_CATEGORY_BY_ID("SELECT * FROM category WHERE id=?"),
+
+	SELECT_DOCTOR_BY_ID("SELECT * FROM doctor WHERE id=?"),
 	SELECT_MEDICAL_CARD_BY_ID("SELECT mc.id, mc.diagnosis, mc.patient_id FROM `medical card` mc join patient p on mc.patient_id=p.id WHERE mc.id=?"),
 
 	SELECT_PATIENT_BY_ID("SELECT * FROM patient WHERE id=?;"),

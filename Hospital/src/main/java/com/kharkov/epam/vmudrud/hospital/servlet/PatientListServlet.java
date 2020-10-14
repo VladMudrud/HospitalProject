@@ -36,18 +36,21 @@ public class PatientListServlet extends HttpServlet {
             throws ServletException, IOException { 
     	log.info("doGet metod in patient list servlet is working");
         HttpSession session = request.getSession();
-        User loginedUser = MyUtils.getLoginedUser(session);
-        
-        if (loginedUser == null || !loginedUser.getRole().equals("doctor")) {
+        User loginedUser = MyUtils.getLoginedUser(session);      
+        if (loginedUser == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        } 
+        String role = loginedUser.getRole();
+        if (!(role.equals("doctor") || role.equals("admin"))) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
+        request.setAttribute("user", loginedUser);
         String sort = request.getParameter("sort");
         if (sort==null) {
         	sort="alphabet";
         }
-        request.setAttribute("user", loginedUser);
-    	
         String errorString = null;
         List<Patient> list = null;
         PatientController patientController = null;
@@ -57,7 +60,6 @@ public class PatientListServlet extends HttpServlet {
         } catch (SQLException e) {
             log.error("Problem with MySql server");
             errorString = "Problem with MySql server";
-            throw new ServletException();
         } finally {
 			try {
 				patientController.returnConnectionInPool();
@@ -68,14 +70,22 @@ public class PatientListServlet extends HttpServlet {
 		}
         request.setAttribute("errorString", errorString);
         request.setAttribute("patientList", list);
-         
+        String menu = getMenuByRole(role);
         RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/views/doctorMenu.jsp");
+                .getRequestDispatcher("/views" + menu);
         dispatcher.forward(request, response);
     }
  
     
-    @Override
+    private String getMenuByRole(String role) {
+    	if (role.equals("admin")) {
+    		return "/adminMenuPathients.jsp";
+    	} else {
+			return "/doctorMenu.jsp";
+		}
+	}
+
+	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	response.sendRedirect(request.getContextPath() + "/patientList" + "?sort=" + request.getParameter("sort"));

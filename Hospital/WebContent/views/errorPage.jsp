@@ -6,7 +6,10 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>
+<body>  
+<h3>Sorry an exception occured!</h3>  
+  
+Exception is: <p style="color: red;">${errorString}</p>  
 
 </body>
 </html>

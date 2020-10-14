@@ -27,6 +27,8 @@
           <th>Date of Birthday</th>
           <th>Gender</th>
           <th>Status</th>
+          <c:if test="${user.role eq 'admin'}"><th>Doctor</th></c:if>
+          
           
        </tr>
        <c:forEach items="${patientList}" var="patient" >
@@ -36,6 +38,7 @@
              <td>${patient.age}</td>
              <td>${patient.gender}</td>
              <td>${patient.status}</td>
+			 <c:if test="${user.role eq 'admin'}"><td>${patient.doctor.firstName} ${patient.doctor.secondName} ${patient.doctor.category.title}</td></c:if>
              
           </tr>
        </c:forEach>

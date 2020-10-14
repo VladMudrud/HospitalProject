@@ -49,7 +49,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 				patient.setAge(date);
 				patient.setGender(gender);
 				patient.setStatus(status);
-				patient.setDoctorId(doctorController.getEntityById(doctorIdInteger));
+				patient.setDoctor(doctorController.getEntityById(doctorIdInteger));
                 lst.add(patient);
 			} 
         } catch (SQLException e) {
@@ -89,7 +89,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 				patient.setAge(date);
 				patient.setGender(gender);
 				patient.setStatus(status);
-				patient.setDoctorId(doctorController.getEntityById(doctorIdInteger));
+				patient.setDoctor(doctorController.getEntityById(doctorIdInteger));
 				return patient;
 			} 
         } catch (SQLException e) {
@@ -137,7 +137,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 				patient.setAge(date);
 				patient.setGender(gender);
 				patient.setStatus(status);
-				patient.setDoctorId(doctorController.getEntityById(doctorIdInteger));
+				patient.setDoctor(doctorController.getEntityById(doctorIdInteger));
                 lst.add(patient);
 			} 
         } catch (SQLException e) {
@@ -186,7 +186,11 @@ public class PatientController extends AbstractController<Patient, Integer> {
 				patient.setAge(date);
 				patient.setGender(gender);
 				patient.setStatus(status);
-				patient.setDoctorId(doctorController.getEntityById(doctorIdInteger));
+				if (doctorIdInteger != 0) {
+					patient.setDoctor(doctorController.getEntityById(doctorIdInteger));
+				} else {
+					patient.setDoctor(null);
+				}
                 lst.add(patient);
 			} 
         } catch (SQLException e) {
