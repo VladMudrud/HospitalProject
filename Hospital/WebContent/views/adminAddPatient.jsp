@@ -8,7 +8,7 @@
       <link rel="stylesheet" type="text/css" href="resources/css/login.css">
    </head>
    <body style="background: White">
-   <form method="POST" action="${pageContext.request.contextPath}/!!!">   
+   <form method="POST" action="${pageContext.request.contextPath}/adminAddPatientMenu">   
         <p style="color: red;">${errorString}</p>  
         <p style="color: green;">${successString}</p>  
         <label><strong>First Name:</strong>    
@@ -33,7 +33,7 @@
         	<option value="female">Female</option>
    		</select>
    		<br><br> 
-        <input type="submit" name="addPatient" id="addPatient" value="Add patient">       
+        <input type="submit" name="command" id="addPatient" value="Add patient">       
     </form>        
    </body>
    

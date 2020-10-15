@@ -20,6 +20,7 @@ public class CommandContainer {
 		commands.put("dishcharge", new DishchargeCommand());
 		commands.put("compTreatment", new CompTreatmentCommand());
 		commands.put("Logout", new LogoutCommand());
+		commands.put("Add patient", new AddPatient());
 
 	}
 

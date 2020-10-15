@@ -21,14 +21,16 @@ public enum Query {
 	SELECT_ALL_DOCTORS_WITH_COUNT("SELECT d.id, d.first_name, d.second_name, d.age, d.gender, d.staff_id, d.category_id, (SELECT count(id) FROM patient WHERE patient.doctor_id=d.id) as NumberOfPatiens FROM doctor d join category c on d.category_id=c.id"),
 	SELECT_DOCTOR_BY_ID("SELECT * FROM doctor WHERE id=?"),
 	SELECT_MEDICAL_CARD_BY_ID("SELECT mc.id, mc.diagnosis, mc.patient_id FROM `medical card` mc join patient p on mc.patient_id=p.id WHERE mc.id=?"),
-
+	INSERT_PATIENT("INSERT INTO `hospital`.`patient` (`first_name`, `second_name`, `age`, `gender`, `status`) VALUES (?, ?, ?, ?, ?)"),
 	SELECT_PATIENT_BY_ID("SELECT * FROM patient WHERE id=?;"),
 	SELECT_STAFF_BY_USER_ID("SELECT s.id, s.user_id FROM staff s join `user` u on s.user_id=u.id WHERE u.id=?"),
 	SELECT_THERAPY_BY_ID("SELECT * FROM therapy WHERE id=?"),
 	SELECT_STAFF_BY_ID("SELECT * FROM staff WHERE id=?"),
 	SELECT_USER_BY_LOGIN_AND_PASSWORD("SELECT * FROM `user` WHERE login=? and `password`=?"),
 	DONE_THERAPY("UPDATE `hospital`.`therapy` SET `status` = 'done', `staff_id` = ? WHERE (`id` = ?)"), 
-	SELECT_MEDICAL_CARD_BY_PATIENT_ID("SELECT mc.id, mc.diagnosis, mc.patient_id FROM `medical card` mc join patient p on mc.patient_id=p.id WHERE p.id=?");
+	SELECT_MEDICAL_CARD_BY_PATIENT_ID("SELECT mc.id, mc.diagnosis, mc.patient_id FROM `medical card` mc join patient p on mc.patient_id=p.id WHERE p.id=?"), 
+	SELECT_LAST_ID("SELECT LAST_INSERT_ID()"), 
+	INSERT_MEDICAL_CARD("INSERT INTO `hospital`.`medical card` (`patient_id`) VALUES (?);");
 	private String value;
 
 	Query(String value) {

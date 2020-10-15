@@ -121,7 +121,16 @@ public class MedicalCardController extends AbstractController<MedicalCard, Integ
 	}
 	@Override
 	public boolean create(MedicalCard entity) throws SQLException {
-		return false;
+		PreparedStatement pstm = null;
+		try {
+			pstm = getPrepareStatement(Query.INSERT_MEDICAL_CARD.value());
+			pstm.setInt(1, entity.getPatient().getId());
+			pstm.execute();
+		} catch (SQLException e) {
+			log.error("Problem with medical card creation", e);
+			throw new SQLException("Problem with medical card creation");
+		}
+		return true;
 	}
 	public List<MedicalCard> getAllMyMedicalCardSorted(Integer id, String sort) throws SQLException {
 		PreparedStatement pstm=null;

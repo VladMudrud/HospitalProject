@@ -34,7 +34,7 @@ public class AddPatientMenuServlet extends HttpServlet {
         super();
     }
 
-
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.info("doGet metod in AddPatientMenuServlet servlet is working");
     	 HttpSession session = request.getSession();
@@ -58,7 +58,7 @@ public class AddPatientMenuServlet extends HttpServlet {
          dispatcher.forward(request, response);
 	}
 
-
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	log.info("doPost metod in AddPatientMenuServlet servlet is working");
    	 	HttpSession session = request.getSession();

@@ -10,32 +10,32 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.kharkov.epam.vmudrud.hospital.db.entity.MedicalCard;
 import com.kharkov.epam.vmudrud.hospital.db.entity.Patient;
 
 public class PatientController extends AbstractController<Patient, Integer> {
-	
+
 	private static final Logger log = Logger.getLogger(PatientController.class);
 
 	public PatientController() throws SQLException {
 		super();
 	}
-	
+
 	public PatientController(ConnectionPool connectionPool, Connection connection) throws SQLException {
 		super(connectionPool, connection);
 	}
-	
 
 	@Override
 	public List<Patient> getAll() throws SQLException {
-		PreparedStatement pstm=null;
-        List<Patient> lst = new LinkedList<>();
+		PreparedStatement pstm = null;
+		List<Patient> lst = new LinkedList<>();
 		try {
 			pstm = getPrepareStatement(Query.SELECT_ALL_PATIENTS.value());
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				Patient patient = new Patient();
 				DoctorController doctorController = new DoctorController(getConnectionPool(), getConnection());
-				Integer id =rs.getInt("id");
+				Integer id = rs.getInt("id");
 				String firstName = rs.getString("first_name");
 				String secondName = rs.getString("second_name");
 				Date date = rs.getDate("age");
@@ -49,15 +49,15 @@ public class PatientController extends AbstractController<Patient, Integer> {
 				patient.setGender(gender);
 				patient.setStatus(status);
 				patient.setDoctor(doctorController.getEntityById(doctorIdInteger));
-                lst.add(patient);
-			} 
-        } catch (SQLException e) {
-			log.error("Can not execute query", e);	
+				lst.add(patient);
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
-        return lst;
+		return lst;
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 
 	@Override
 	public Patient getEntityById(Integer id) throws SQLException {
-		PreparedStatement pstm=null;
+		PreparedStatement pstm = null;
 		try {
 			pstm = getPrepareStatement(Query.SELECT_PATIENT_BY_ID.value());
 			pstm.setInt(1, id);
@@ -90,14 +90,14 @@ public class PatientController extends AbstractController<Patient, Integer> {
 				patient.setStatus(status);
 				patient.setDoctor(doctorController.getEntityById(doctorIdInteger));
 				return patient;
-			} 
-        } catch (SQLException e) {
-			log.error("Can not execute query", e);	
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
 			throw new SQLException();
 		} finally {
 			closePrepareStatement(pstm);
 		}
-		log.error("Cann't find the patient");	
+		log.error("Cann't find the patient");
 		throw new SQLException("Cann't find the patient");
 	}
 
@@ -109,13 +109,25 @@ public class PatientController extends AbstractController<Patient, Integer> {
 
 	@Override
 	public boolean create(Patient entity) throws SQLException {
-		log.info("this empty");
-		return false;
+		PreparedStatement pstm = null;
+		try {
+			pstm = getPrepareStatement(Query.INSERT_PATIENT.value());
+			pstm.setString(1, entity.getFirstName());
+			pstm.setString(2, entity.getSecondName());
+			pstm.setDate(3, entity.getAge());
+			pstm.setString(4, entity.getGender());
+			pstm.setString(5, entity.getStatus());
+			pstm.execute();
+		} catch (SQLException e) {
+			log.error("Problem with patient creation", e);
+			throw new SQLException("Problem with patient creation");
+		}
+		return true;
 	}
 
 	public List<Patient> getAllMyPatients(Integer id) throws SQLException {
-		PreparedStatement pstm=null;
-        List<Patient> lst = new LinkedList<>();
+		PreparedStatement pstm = null;
+		List<Patient> lst = new LinkedList<>();
 		try {
 			pstm = getPrepareStatement(Query.SELECT_ALL_MY_PATIENTS.value());
 			pstm.setInt(1, id);
@@ -123,7 +135,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 			while (rs.next()) {
 				Patient patient = new Patient();
 				DoctorController doctorController = new DoctorController(getConnectionPool(), getConnection());
-				Integer idPatient =rs.getInt("id");
+				Integer idPatient = rs.getInt("id");
 				String firstName = rs.getString("first_name");
 				String secondName = rs.getString("second_name");
 				Date date = rs.getDate("age");
@@ -137,15 +149,15 @@ public class PatientController extends AbstractController<Patient, Integer> {
 				patient.setGender(gender);
 				patient.setStatus(status);
 				patient.setDoctor(doctorController.getEntityById(doctorIdInteger));
-                lst.add(patient);
-			} 
-        } catch (SQLException e) {
-			log.error("Can not execute query", e);	
+				lst.add(patient);
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
-        return lst;
+		return lst;
 	}
 
 	public Patient updateStatus(Patient entity) throws SQLException {
@@ -157,22 +169,22 @@ public class PatientController extends AbstractController<Patient, Integer> {
 			ps.execute();
 			return entity;
 		} catch (SQLException e) {
-			log.error("Can not execute query", e);	
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query");
 		}
 	}
 
 	public List<Patient> getAllOrdered(String sort) throws SQLException {
-		PreparedStatement pstm=null;
-        List<Patient> lst = new LinkedList<>();
-        sort=patientSort(sort);
+		PreparedStatement pstm = null;
+		List<Patient> lst = new LinkedList<>();
+		sort = patientSort(sort);
 		try {
 			pstm = getPrepareStatement(Query.SELECT_ALL_PATIENTS.value() + sort);
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				Patient patient = new Patient();
 				DoctorController doctorController = new DoctorController(getConnectionPool(), getConnection());
-				Integer id =rs.getInt("id");
+				Integer id = rs.getInt("id");
 				String firstName = rs.getString("first_name");
 				String secondName = rs.getString("second_name");
 				Date date = rs.getDate("age");
@@ -190,19 +202,18 @@ public class PatientController extends AbstractController<Patient, Integer> {
 				} else {
 					patient.setDoctor(null);
 				}
-                lst.add(patient);
-			} 
-        } catch (SQLException e) {
-			log.error("Can not execute query", e);	
+				lst.add(patient);
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
-        return lst;
+		return lst;
 	}
 
-	private String patientSort(String sort)
-	{		
+	private String patientSort(String sort) {
 		if (sort.equals("alphabet")) {
 			return "ORDER BY first_name";
 		}
@@ -211,6 +222,44 @@ public class PatientController extends AbstractController<Patient, Integer> {
 		} else {
 			return "ORDER BY first_name";
 		}
+	}
+
+	public synchronized boolean transactionPatientCreate(Patient patient) throws SQLException {
+		try {
+			getConnection().setAutoCommit(false);
+			if (!create(patient)) {
+				throw new SQLException();
+			}
+			Integer patientId = getLastInsertId();
+			patient.setId(patientId);
+			MedicalCardController medicalCardController = new MedicalCardController(getConnectionPool(), getConnection());
+			MedicalCard medicalCard = new MedicalCard();
+			medicalCard.setPatient(patient);
+			medicalCardController.create(medicalCard);
+			getConnection().commit();
+			getConnection().setAutoCommit(true);
+		} catch (SQLException e) {
+			getConnection().rollback();
+			log.error("Can not execute transaction, rollback...", e);
+			throw new SQLException("Can not execute transaction");
+		}
+		return true;
+	}
+
+	private Integer getLastInsertId() throws SQLException {
+		PreparedStatement pstm = null;
+		try {
+			pstm = getPrepareStatement(Query.SELECT_LAST_ID.value());
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("LAST_INSERT_ID()");
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
+			throw new SQLException("Can not execute query");
+		}
+		log.error("Cann't find the id");
+		throw new SQLException("Cann't find the id");
 	}
 
 }
