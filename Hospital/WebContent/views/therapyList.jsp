@@ -11,7 +11,6 @@
  <body>   
  	<FORM action="${pageContext.request.contextPath}/therapy" method="POST">
     <input type="hidden" name="type" id="type" value="compTreatment"> 
-    <p style="color: red;">${errorString}</p>
     <table border="1">
        <tr>
           <th>Patient</th>
@@ -30,7 +29,12 @@
           </tr>
           
        </c:forEach>
+       
     </table> 
+    <p style="color: red;">${errorString}</p>
+    <p style="color: green;">${successString}</p>  
+    
     </FORM>
+    
  </body>
 </html>

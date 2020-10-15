@@ -19,6 +19,7 @@ import com.kharkov.epam.vmudrud.hospital.controller.CommandContainer;
 import com.kharkov.epam.vmudrud.hospital.db.TherapyController;
 import com.kharkov.epam.vmudrud.hospital.db.entity.Therapy;
 import com.kharkov.epam.vmudrud.hospital.db.entity.User;
+import com.kharkov.epam.vmudrud.hospital.exception.AppException;
 import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
 
 
@@ -31,6 +32,9 @@ public class TherapyNurse extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
+	private static final String ERROR_STRING = "errorString";
+
+	
     public TherapyNurse() {
         super();
     }
@@ -48,7 +52,6 @@ public class TherapyNurse extends HttpServlet {
             return;
         }
         request.setAttribute("user", loginedUser);
-        String errorString = null;
         List<Therapy> list = null;
         TherapyController therapyController = null;
         try {
@@ -56,18 +59,19 @@ public class TherapyNurse extends HttpServlet {
             list = therapyController.getAllNoOperation();
         } catch (SQLException e) {
             log.error("Problem with MySql server");
-            errorString = "Problem with MySql server";
-            throw new ServletException();
+        	session.setAttribute(ERROR_STRING, "Problem with MySql server:" + e.getMessage());
         } finally {
 			try {
 				therapyController.returnConnectionInPool();
 			} catch (SQLException e) {
 	            log.error("Problem with returning connection to the poll");
-	            throw new ServletException();
+	        	session.setAttribute(ERROR_STRING, "Problem with returning connection to the poll");
 			}
 		}
-        request.setAttribute("errorString", errorString);
+        request.setAttribute(ERROR_STRING, session.getAttribute(ERROR_STRING));
         request.setAttribute("therapyList", list);
+        session.setAttribute(ERROR_STRING, null);
+
         RequestDispatcher dispatcher = request.getServletContext()
                 .getRequestDispatcher("/views/nurseMenu.jsp");
         dispatcher.forward(request, response);
@@ -79,6 +83,7 @@ public class TherapyNurse extends HttpServlet {
             throws ServletException, IOException {
     	log.info("doPost metod in therapyNurse servlet is working");
     	HttpSession session = request.getSession();
+    	session.setAttribute(ERROR_STRING, null);
         User loginedUser = MyUtils.getLoginedUser(session);
         if (loginedUser == null || !loginedUser.getRole().equals("nurse")) {
             response.sendRedirect(request.getContextPath() + "/login");
@@ -91,7 +96,12 @@ public class TherapyNurse extends HttpServlet {
         }
         String commandName = request.getParameter("type");
      	Command command = CommandContainer.get(commandName);
-        command.execute(request, response);
+        try {
+			command.execute(request, response);
+		} catch (AppException e) {
+            log.error("An error has occurred:" + e.getMessage());
+			session.setAttribute(ERROR_STRING, e.getMessage());
+		}
         doGet(request, response);
     }
 

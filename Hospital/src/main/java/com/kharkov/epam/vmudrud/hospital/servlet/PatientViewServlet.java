@@ -18,6 +18,7 @@ import com.kharkov.epam.vmudrud.hospital.controller.CommandContainer;
 import com.kharkov.epam.vmudrud.hospital.db.MedicalCardController;
 import com.kharkov.epam.vmudrud.hospital.db.entity.MedicalCard;
 import com.kharkov.epam.vmudrud.hospital.db.entity.User;
+import com.kharkov.epam.vmudrud.hospital.exception.AppException;
 import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
 
 
@@ -26,8 +27,12 @@ public class PatientViewServlet extends HttpServlet {
 	
 
 	private static final long serialVersionUID = 1718695257049236456L;
+	
 	private static final Logger log = Logger.getLogger(PatientViewServlet.class);
 
+	private static final String ERROR_STRING = "errorString";
+
+	private static final String SUCCESS_STRING = "successString";
 
     public PatientViewServlet() {
         super();
@@ -52,7 +57,6 @@ public class PatientViewServlet extends HttpServlet {
             return;
         }
         request.setAttribute("user", loginedUser);
-        String errorString = request.getParameter("error");
         MedicalCardController medicalCardController = null;
         MedicalCard medicalCard = new MedicalCard();
         try {
@@ -60,18 +64,21 @@ public class PatientViewServlet extends HttpServlet {
         	medicalCard = medicalCardController.getEntityByPatientId(id);
         } catch (SQLException e) {
             log.error("Problem with MySql server");
-            errorString = "Problem with MySql server";
+        	session.setAttribute(ERROR_STRING, "Problem with MySql server:" + e.getMessage());
         } finally {
 			try {
 				medicalCardController.returnConnectionInPool();
 			} catch (SQLException e) {
 	            log.error("Problem with returning connection to the poll");
-	            errorString = "Problem with MySql connection";
+	        	session.setAttribute(ERROR_STRING, "Problem with returning connection to the poll");
 			}
 		}
-        request.setAttribute("errorString", errorString);
+        request.setAttribute(ERROR_STRING, session.getAttribute(ERROR_STRING));
+        request.setAttribute(SUCCESS_STRING, session.getAttribute(SUCCESS_STRING));
         request.setAttribute("medicalCard", medicalCard);
-         
+        session.setAttribute(SUCCESS_STRING, null);
+        session.setAttribute(ERROR_STRING, null);
+
         RequestDispatcher dispatcher = request.getServletContext()
                 .getRequestDispatcher("/views/myPatientView.jsp");
         dispatcher.forward(request, response);
@@ -81,6 +88,8 @@ public class PatientViewServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.info("doPost metod in patient view servlet is working");
         HttpSession session = request.getSession();
+    	session.setAttribute(ERROR_STRING, null);
+    	session.setAttribute(SUCCESS_STRING, null);
         User loginedUser = MyUtils.getLoginedUser(session);
 
         if (loginedUser == null) {
@@ -93,18 +102,25 @@ public class PatientViewServlet extends HttpServlet {
         }
         if (request.getParameter("id")== null) {
             log.error("patient id is NULL");
+        	session.setAttribute(ERROR_STRING, "patient id is NULL");
             response.sendRedirect(request.getContextPath() + "/myPatients");
             return;
         }
         if ((request.getParameter("diagnosis") == null || request.getParameter("diagnosis").equals("Unknown") || request.getParameter("diagnosis").equals("")) && request.getParameter("type").equals("dishcharge")) {
             log.error("diagnosis is NULL");
-            String errorString="Diagnosis is unknown, we cannot discharge the patient";
-            response.sendRedirect(request.getContextPath() + "/patientView" + "?id=" + request.getParameter("id") + "&error=" + errorString);
+        	session.setAttribute(ERROR_STRING, "Diagnosis is unknown, we cannot discharge the patient");
+            response.sendRedirect(request.getContextPath() + "/patientView" + "?id=" + request.getParameter("id"));
             return;
         }
 		String commandName = request.getParameter("type");
 		Command command = CommandContainer.get(commandName);
-		command.execute(request, response);
+		try {
+			command.execute(request, response);
+        	session.setAttribute(SUCCESS_STRING, "Operation successful");
+		} catch (AppException e) {
+        	session.setAttribute(ERROR_STRING, e.getMessage());
+	    	log.error("An error has occurred:" + e.getMessage());
+		}
 		if (!request.getParameter("type").equals("dishcharge")) {
             response.sendRedirect(request.getContextPath() + "/patientView" + "?id=" + request.getParameter("id"));
 		} else {

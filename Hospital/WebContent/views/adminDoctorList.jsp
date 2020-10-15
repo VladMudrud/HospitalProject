@@ -20,7 +20,6 @@
     <br>
     <br>
     </form>
-    <p style="color: red;">${errorString}</p>
     <table border="1">
        <tr>
           <th>First Name</th>
@@ -43,5 +42,7 @@
           </tr>
        </c:forEach>
     </table> 
+    <p style="color: red;">${errorString}</p>
+    
  </body>
 </html>

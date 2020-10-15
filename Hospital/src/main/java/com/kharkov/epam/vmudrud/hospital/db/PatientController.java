@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
@@ -54,7 +53,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 			} 
         } catch (SQLException e) {
 			log.error("Can not execute query", e);	
-			throw new SQLException();
+			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
@@ -99,7 +98,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 			closePrepareStatement(pstm);
 		}
 		log.error("Cann't find the patient");	
-		throw new NoSuchElementException();
+		throw new SQLException("Cann't find the patient");
 	}
 
 	@Override
@@ -142,7 +141,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 			} 
         } catch (SQLException e) {
 			log.error("Can not execute query", e);	
-			throw new SQLException();
+			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
@@ -159,7 +158,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 			return entity;
 		} catch (SQLException e) {
 			log.error("Can not execute query", e);	
-			throw new SQLException();
+			throw new SQLException("Can not execute query");
 		}
 	}
 
@@ -195,7 +194,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 			} 
         } catch (SQLException e) {
 			log.error("Can not execute query", e);	
-			throw new SQLException();
+			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}

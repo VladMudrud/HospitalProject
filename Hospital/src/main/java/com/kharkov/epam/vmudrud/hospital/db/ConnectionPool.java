@@ -28,10 +28,10 @@ private static final Logger log = Logger.getLogger(ConnectionPool.class);
             c = ds.getConnection();
         } catch (NamingException e) {
 			log.error("Problem with Context", e);	
-			throw new NamingException();
+			throw new NamingException("Problem with Context");
         } catch (SQLException e) {
 			log.error("Problem with getConnection", e);	
-			throw new SQLException();
+			throw new SQLException("Problem with getConnection");
         }
         return c;
     }
@@ -46,7 +46,7 @@ private static final Logger log = Logger.getLogger(ConnectionPool.class);
 			con.commit();
 		} catch (SQLException ex) {
 			log.error("Problem with commit", ex);	
-			throw new SQLException();
+			throw new SQLException("Problem with commit");
 		}
 	}
 
@@ -55,7 +55,7 @@ private static final Logger log = Logger.getLogger(ConnectionPool.class);
 			con.rollback();
 		} catch (SQLException ex) {
 			log.error("Problem with rollback", ex);	
-			throw new SQLException();
+			throw new SQLException("Problem with rollback");
 		}
 	}
 
@@ -64,7 +64,7 @@ private static final Logger log = Logger.getLogger(ConnectionPool.class);
 			con.close();
 		} catch (SQLException ex) {
 			log.error("Problem with rollback", ex);	
-			throw new SQLException();
+			throw new SQLException("Problem with rollback");
 		}
 		
 	}

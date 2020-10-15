@@ -19,6 +19,7 @@ public class MyPatientSortServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(MyPatientSortServlet.class);
 
+	private static final String ERROR_STRING = "errorString";
 
     public MyPatientSortServlet() {
         super();
@@ -32,6 +33,7 @@ public class MyPatientSortServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+    	session.setAttribute(ERROR_STRING, null);
     	log.info("doPost metod in MyPatientSort servlet is working"); 
         User loginedUser = MyUtils.getLoginedUser(session);
         if (loginedUser == null) {

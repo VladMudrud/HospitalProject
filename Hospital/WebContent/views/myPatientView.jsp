@@ -71,6 +71,8 @@
  		 <input type="hidden" name="diagnosis" id="diagnosis" value="${medicalCard.diagnosis}"> 
  		 <button type="submit" name="id" value="${medicalCard.patient.id}">Discharge from hospital</button>
  		 <p style="color: red;">${errorString}</p>  
+		 <p style="color: green;">${successString}</p>  
+ 		 
  		 </form>
  		 
 </div>

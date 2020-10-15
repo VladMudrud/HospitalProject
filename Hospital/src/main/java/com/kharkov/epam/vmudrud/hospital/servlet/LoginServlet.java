@@ -3,7 +3,6 @@ package com.kharkov.epam.vmudrud.hospital.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import java.util.NoSuchElementException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import com.kharkov.epam.vmudrud.hospital.db.UserController;
 import com.kharkov.epam.vmudrud.hospital.db.entity.User;
+import com.kharkov.epam.vmudrud.hospital.exception.AppException;
 import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
  
 
@@ -27,6 +27,7 @@ public class LoginServlet extends HttpServlet {
 	
 	private static final Logger log = Logger.getLogger(LoginServlet.class);
 
+	private static final String ERROR_STRING = "errorString";
 
 	public LoginServlet() {
         super();
@@ -37,8 +38,10 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
  
     	log.info("doGet metod in login servlet is working");
+    	HttpSession session = request.getSession();
+        request.setAttribute(ERROR_STRING, session.getAttribute(ERROR_STRING));
+        session.setAttribute(ERROR_STRING, null);
         RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/index.jsp");
- 
         dispatcher.forward(request, response);
  
     }
@@ -47,16 +50,17 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	log.info("doPost metod in login servlet is working");
+    	HttpSession session = request.getSession();
+    	session.setAttribute(ERROR_STRING, null);
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String rememberMeStr = request.getParameter("rememberMe");
         boolean remember = "Y".equals(rememberMeStr);
         User user = null;
         boolean hasError = false;
-        String errorString = null;
         if (login == null || password == null || login.length() == 0 || password.length() == 0) {
             hasError = true;
-            errorString = "No date to login";
+        	session.setAttribute(ERROR_STRING, "No date to login");
         	log.info("No date to login");
         } else {
         	UserController userController=null;
@@ -65,11 +69,11 @@ public class LoginServlet extends HttpServlet {
                 user = userController.getUserByLoginAndPassword(login, password);
             } catch (SQLException e) {
                 hasError = true;
-                errorString = "Some problems on server";
+            	session.setAttribute(ERROR_STRING, "Problem with MySql server:" + e.getMessage());
             	log.error("SQL problems");
-            } catch (NoSuchElementException ex) {
+            } catch (AppException ex) {
                 hasError = true;
-                errorString = "User Name or password invalid";
+            	session.setAttribute(ERROR_STRING, "User Name or Password invalid");
             	log.error("Ivalid user login or password");
 			}
             finally {
@@ -77,23 +81,18 @@ public class LoginServlet extends HttpServlet {
 					userController.returnConnectionInPool();
 				} catch (SQLException e) {
 	            	log.info("Connection pool not returned");
-	                errorString = "Some problems on server";
+	            	session.setAttribute(ERROR_STRING, "Connection pool not returned");
 				}
 			}
             
         }
         if (hasError) {
             user = new User();
-            user.setLogin(login);
-            user.setPassword(password);
-            request.setAttribute("errorString", errorString);
             request.setAttribute("user", user);
-            RequestDispatcher dispatcher //
-                    = this.getServletContext().getRequestDispatcher("/index.jsp");
-            dispatcher.forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/login");
         }
         else {
-            HttpSession session = request.getSession();
+            session = request.getSession();
             MyUtils.storeLoginedUser(session, user);
             if (remember) {
                 MyUtils.storeUserCookie(response, user);
@@ -123,8 +122,8 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/therapyNurse");
             return;
     	}
-        String errorString = "User has unknown role";
-        request.setAttribute("errorString", errorString);
+        String errorStringPage = "User has unknown role";
+        request.setAttribute(ERROR_STRING, errorStringPage);
     	log.error("user is unknown");
         response.sendRedirect(request.getContextPath() + "/errorPage.jsp");
  

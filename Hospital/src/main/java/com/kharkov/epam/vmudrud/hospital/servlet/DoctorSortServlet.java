@@ -22,6 +22,7 @@ public class DoctorSortServlet extends HttpServlet {
 	
 	private static final Logger log = Logger.getLogger(DoctorSortServlet.class);
 
+	private static final String ERROR_STRING = "errorString";
 
     public DoctorSortServlet() {
         super();
@@ -34,8 +35,10 @@ public class DoctorSortServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
     	log.info("doPost metod in DoctorSortServlet servlet is working"); 
+        HttpSession session = request.getSession();
+    	session.setAttribute(ERROR_STRING, null);
+
         User loginedUser = MyUtils.getLoginedUser(session);
         if (loginedUser == null) {
             response.sendRedirect(request.getContextPath() + "/login");

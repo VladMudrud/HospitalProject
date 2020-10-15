@@ -1,11 +1,9 @@
 package com.kharkov.epam.vmudrud.hospital.controller;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.naming.NamingException;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,6 +17,7 @@ import com.kharkov.epam.vmudrud.hospital.db.TherapyController;
 import com.kharkov.epam.vmudrud.hospital.db.entity.Staff;
 import com.kharkov.epam.vmudrud.hospital.db.entity.Therapy;
 import com.kharkov.epam.vmudrud.hospital.db.entity.User;
+import com.kharkov.epam.vmudrud.hospital.exception.AppException;
 import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
 
 public class CompTreatmentCommand extends Command {
@@ -32,7 +31,7 @@ public class CompTreatmentCommand extends Command {
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
+			throws AppException {
         HttpSession session = request.getSession();
         User loginedUser = MyUtils.getLoginedUser(session);
         Integer id = Integer.valueOf(request.getParameter("id"));
@@ -41,7 +40,6 @@ public class CompTreatmentCommand extends Command {
     	StaffController staffController = null;
         Therapy therapy = new Therapy();
         Staff staff = new Staff();
-
         try {
         	ConnectionPool connectionPool =ConnectionPool.getInstance();
         	Connection connection = connectionPool.getConnection();
@@ -52,11 +50,13 @@ public class CompTreatmentCommand extends Command {
         	therapyController.done(therapy, staff);
         } catch (SQLException | NamingException e) {
             log.error("Problem with MySql server");
+            throw new AppException(e.getMessage());
         } finally {
 			try {
 				therapyController.returnConnectionInPool();
 			} catch (SQLException e) {
 	            log.error("Problem with returning connection to the poll");
+	            throw new AppException("Problem with returning connection to the poll");
 			}
 		}
         request.setAttribute("medicalCard", therapy);

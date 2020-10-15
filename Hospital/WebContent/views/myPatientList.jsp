@@ -21,7 +21,6 @@
     <br>
     </form>
     <FORM action="${pageContext.request.contextPath}/myPatients" method="POST">
-    <p style="color: red;">${errorString}</p>
     <table border="1">
        <tr>
           <th>First Name</th>
@@ -47,6 +46,7 @@
           </tr>
        </c:forEach>
     </table> 
+    <p style="color: red;">${errorString}</p>
     </FORM>
  </body>
 </html>

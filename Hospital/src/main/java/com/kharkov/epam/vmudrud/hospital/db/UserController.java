@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
 import com.kharkov.epam.vmudrud.hospital.db.entity.User;
+import com.kharkov.epam.vmudrud.hospital.exception.AppException;
 
 public class UserController extends AbstractController<User, Integer> {
 	
@@ -42,7 +42,7 @@ public class UserController extends AbstractController<User, Integer> {
             }
         } catch (SQLException e) {
 			log.error("Can not execute query", e);	
-			throw new SQLException();
+			throw new SQLException("Can not execute query");
         } finally {
 			closePrepareStatement(ps);
         }
@@ -55,7 +55,7 @@ public class UserController extends AbstractController<User, Integer> {
 		return null;
 	}
 	
-	public User getUserByLoginAndPassword(String login, String password) throws SQLException {
+	public User getUserByLoginAndPassword(String login, String password) throws SQLException, AppException {
 		PreparedStatement pstm=null;
 		try {
 			pstm = getPrepareStatement(Query.SELECT_USER_BY_LOGIN_AND_PASSWORD.value());
@@ -76,12 +76,12 @@ public class UserController extends AbstractController<User, Integer> {
 			} 
         } catch (SQLException e) {
 			log.error("Can not execute query", e);	
-			throw new SQLException();
+			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
 		log.error("Cann't find the user");	
-		throw new NoSuchElementException();
+		throw new AppException("Cann't find the user");
 	}
 
 
@@ -106,12 +106,12 @@ public class UserController extends AbstractController<User, Integer> {
 			} 
         } catch (SQLException e) {
 			log.error("Can not execute query", e);	
-			throw new SQLException();
+			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
 		log.error("Cann't find the user");	
-		throw new NoSuchElementException();
+		throw new SQLException("Cann't find the user");
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class UserController extends AbstractController<User, Integer> {
 			return true;
 		} catch (SQLException e) {
 			log.error("Can not execute query", e);	
-			throw new SQLException();
+			throw new SQLException("Can not execute query");
 		}
 	}
 	

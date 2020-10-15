@@ -27,6 +27,7 @@ public class DortorListServlet extends HttpServlet {
 	
 	private static final Logger log = Logger.getLogger(DortorListServlet.class);
 
+	private static final String ERROR_STRING = "errorString";
 
     public DortorListServlet() {
         super();
@@ -51,7 +52,6 @@ public class DortorListServlet extends HttpServlet {
         if (sort==null) {
         	sort="alphabet";
         }
-        String errorString = null;
         List<Doctor> list = null;
         DoctorController doctorController = null;
         try {
@@ -59,23 +59,27 @@ public class DortorListServlet extends HttpServlet {
             list = doctorController.getAllOrderedWithCount(sort);
         } catch (SQLException e) {
             log.error("Problem with MySql server");
-            errorString = "Problem with MySql server";
+        	session.setAttribute(ERROR_STRING, "Problem with MySql server:" + e.getMessage());
         } finally {
 			try {
 				doctorController.returnConnectionInPool();
 			} catch (SQLException e) {
 	            log.error("Problem with returning connection to the poll");
-	            errorString = "Problem with returning connection to the poll";
+	        	session.setAttribute(ERROR_STRING, "Problem with returning connection to the poll");
 			}
 		}
-        request.setAttribute("errorString", errorString);
+        request.setAttribute(ERROR_STRING, session.getAttribute(ERROR_STRING));
         request.setAttribute("doctorList", list);
+        session.setAttribute(ERROR_STRING, null);
+
         RequestDispatcher dispatcher = request.getServletContext()
                 .getRequestDispatcher("/views" + "/adminDoctorListMenu.jsp");
         dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+    	session.setAttribute(ERROR_STRING, null);
 		doGet(request, response);
 	}
 

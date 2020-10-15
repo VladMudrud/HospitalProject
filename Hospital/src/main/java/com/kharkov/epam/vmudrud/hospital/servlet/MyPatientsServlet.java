@@ -27,7 +27,9 @@ public class MyPatientsServlet extends HttpServlet {
 	private static final Logger log = Logger.getLogger(MyPatientsServlet.class);
 
     private static final long serialVersionUID = 1L;
- 
+    
+	private static final String ERROR_STRING = "errorString";
+
     public MyPatientsServlet() {
         super();
     }
@@ -48,7 +50,6 @@ public class MyPatientsServlet extends HttpServlet {
         	sort="alphabet";
         }
         request.setAttribute("user", loginedUser);
-        String errorString = null;
         List<MedicalCard> list = null;
         MedicalCardController medicalCardController = null;
         try {
@@ -56,17 +57,19 @@ public class MyPatientsServlet extends HttpServlet {
             list = medicalCardController.getAllMyMedicalCardSorted(loginedUser.getId(), sort);
         } catch (SQLException e) {
             log.error("Problem with MySql server");
-            errorString = "Problem with MySql server";
+        	session.setAttribute(ERROR_STRING, "Problem with MySql server:" + e.getMessage());
         } finally {
 			try {
 				medicalCardController.returnConnectionInPool();
 			} catch (SQLException e) {
 	            log.error("Problem with returning connection to the poll");
-	            errorString = "Problem with MySql connection";
+	        	session.setAttribute(ERROR_STRING, "Problem with returning connection to the poll");
 			}
 		}
-        request.setAttribute("errorString", errorString);
+        request.setAttribute(ERROR_STRING, session.getAttribute(ERROR_STRING));
         request.setAttribute("patientList", list);
+        session.setAttribute(ERROR_STRING, null);
+
         RequestDispatcher dispatcher = request.getServletContext()
                 .getRequestDispatcher("/views/doctorMenuMyPatients.jsp");
         dispatcher.forward(request, response);
@@ -77,6 +80,7 @@ public class MyPatientsServlet extends HttpServlet {
             throws ServletException, IOException {
     	log.info("doPost metod in myPatients servlet is working");
         HttpSession session = request.getSession();
+    	session.setAttribute(ERROR_STRING, null);
         User loginedUser = MyUtils.getLoginedUser(session);
         if (loginedUser == null || !loginedUser.getRole().equals("doctor")) {
             response.sendRedirect(request.getContextPath() + "/login");

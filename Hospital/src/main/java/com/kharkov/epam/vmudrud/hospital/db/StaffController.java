@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
@@ -52,12 +51,12 @@ public class StaffController extends AbstractController<Staff, Integer> {
 			} 
         } catch (SQLException e) {
 			log.error("Can not execute query", e);	
-			throw new SQLException();
+			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
-		log.error("Cann't find the patient");	
-		throw new NoSuchElementException();
+		log.error("Cann't find the staff");	
+		throw new SQLException("Cann't find the staff");
 	}
 
 	@Override
@@ -88,12 +87,12 @@ public class StaffController extends AbstractController<Staff, Integer> {
 			} 
         } catch (SQLException e) {
 			log.error("Can not execute query", e);	
-			throw new SQLException();
+			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
-		log.error("Cann't find the patient");	
-		throw new NoSuchElementException();
+		log.error("Cann't find the staff");	
+		throw new SQLException("Cann't find the staff");
 	}
 
 }

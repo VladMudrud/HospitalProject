@@ -26,7 +26,9 @@ public class PatientListServlet extends HttpServlet {
 	private static final Logger log = Logger.getLogger(PatientListServlet.class);
 
     private static final long serialVersionUID = 1L;
- 
+    
+	private static final String ERROR_STRING = "errorString";
+
     public PatientListServlet() {
         super();
     }
@@ -36,6 +38,7 @@ public class PatientListServlet extends HttpServlet {
             throws ServletException, IOException { 
     	log.info("doGet metod in patient list servlet is working");
         HttpSession session = request.getSession();
+
         User loginedUser = MyUtils.getLoginedUser(session);      
         if (loginedUser == null) {
             response.sendRedirect(request.getContextPath() + "/login");
@@ -51,7 +54,6 @@ public class PatientListServlet extends HttpServlet {
         if (sort==null) {
         	sort="alphabet";
         }
-        String errorString = null;
         List<Patient> list = null;
         PatientController patientController = null;
         try {
@@ -59,17 +61,19 @@ public class PatientListServlet extends HttpServlet {
             list = patientController.getAllOrdered(sort);
         } catch (SQLException e) {
             log.error("Problem with MySql server");
-            errorString = "Problem with MySql server";
+        	session.setAttribute(ERROR_STRING, "Problem with MySql server:" + e.getMessage());
         } finally {
 			try {
 				patientController.returnConnectionInPool();
 			} catch (SQLException e) {
 	            log.error("Problem with returning connection to the poll");
-	            throw new ServletException();
+	        	session.setAttribute(ERROR_STRING, "Problem with returning connection to the poll");
 			}
 		}
-        request.setAttribute("errorString", errorString);
+        request.setAttribute(ERROR_STRING, session.getAttribute(ERROR_STRING));
         request.setAttribute("patientList", list);
+        session.setAttribute(ERROR_STRING, null);
+
         String menu = getMenuByRole(role);
         RequestDispatcher dispatcher = request.getServletContext()
                 .getRequestDispatcher("/views" + menu);
@@ -89,6 +93,8 @@ public class PatientListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	log.info("doPost metod in patient list servlet is working");
+        HttpSession session = request.getSession();
+    	session.setAttribute(ERROR_STRING, null);
     	response.sendRedirect(request.getContextPath() + "/patientList" + "?sort=" + request.getParameter("sort"));
     }
  
