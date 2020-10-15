@@ -8,12 +8,21 @@
       <link rel="stylesheet" type="text/css" href="resources/css/login.css">
    </head>
    <body style="background: White">
-   <form method="POST" action="${pageContext.request.contextPath}/adminAddPatientMenu">   
+   <form method="POST" action="${pageContext.request.contextPath}/adminAddDoctorMenu">   
         <p style="color: red;">${errorString}</p>  
         <p style="color: green;">${successString}</p>  
+        <label><strong>Login:</strong>    
+        </label>    
+        <input type="text" name="login" id="login" placeholder="Login" required>    
+        <br><br>    
+        <label><strong>Password:    
+        </strong>    
+        </label>    
+        <input type="password" name="password" id="password" required>  
+        <br><br>   
         <label><strong>First Name:</strong>    
         </label>    
-        <input type="text" name="firstName" id="firstName" placeholder="First Name" required autofocus>    
+        <input type="text" name="firstName" id="firstName" placeholder="First Name" required>    
         <br><br>    
         <label><strong>Second name:    
         </strong>    
@@ -33,7 +42,16 @@
         	<option value="female">Female</option>
    		</select>
    		<br><br> 
-        <input type="submit" name="command" id="addPatient" value="Add patient">       
+        <label><strong>Category:    
+        </strong>    
+        </label> 
+   		<select name="category" id="category">
+        	<option value="Therapist">Therapist</option>
+        	<option value="Surgeon">Surgeon</option>
+        	<option value="Traumatologist">Traumatologist</option>
+   		</select>
+   		<br><br> 
+        <input type="submit" name="command" id="addDoctor" value="Add doctor">       
     </form>        
    </body>
    

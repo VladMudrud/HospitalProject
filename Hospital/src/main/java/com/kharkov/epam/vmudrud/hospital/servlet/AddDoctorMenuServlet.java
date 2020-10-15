@@ -18,25 +18,25 @@ import com.kharkov.epam.vmudrud.hospital.db.entity.User;
 import com.kharkov.epam.vmudrud.hospital.exception.AppException;
 import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
 
-@WebServlet(urlPatterns = { "/adminAddPatientMenu" })
-public class AddPatientMenuServlet extends HttpServlet {
 
+@WebServlet(urlPatterns = { "/adminAddDoctorMenu" })
+public class AddDoctorMenuServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
-
-	private static final Logger log = Logger.getLogger(AddPatientMenuServlet.class);
-
+	
+	private static final Logger log = Logger.getLogger(AddDoctorMenuServlet.class);
+	
 	private static final String ERROR_STRING = "errorString";
+	
+	private static final String SUCCESS_STRING = "successString";       
 
-	private static final String SUCCESS_STRING = "successString";
+    public AddDoctorMenuServlet() {
+        super();
+    }
 
-	public AddPatientMenuServlet() {
-		super();
-	}
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		log.info("doGet metod in AddPatientMenuServlet servlet is working");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.info("doGet metod in adminAddDoctorMenu servlet is working");
 		HttpSession session = request.getSession();
 		User loginedUser = MyUtils.getLoginedUser(session);
 		if (loginedUser == null) {
@@ -54,14 +54,13 @@ public class AddPatientMenuServlet extends HttpServlet {
 		session.setAttribute(ERROR_STRING, null);
 		session.setAttribute(SUCCESS_STRING, null);
 		RequestDispatcher dispatcher = request.getServletContext()
-				.getRequestDispatcher("/views" + "/adminMenuAddPatient.jsp");
+				.getRequestDispatcher("/views" + "/adminMenuAddDoctor.jsp");
 		dispatcher.forward(request, response);
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		log.info("doPost metod in AddPatientMenuServlet servlet is working");
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.info("doPost metod in adminAddDoctorMenu servlet is working");
 		HttpSession session = request.getSession();
 		session.setAttribute(ERROR_STRING, null);
 		session.setAttribute(SUCCESS_STRING, null);
@@ -78,7 +77,7 @@ public class AddPatientMenuServlet extends HttpServlet {
 		request.setAttribute("user", loginedUser);
 		String commandName = request.getParameter("command");
 		Command command = CommandContainer.get(commandName);
-		String forward = "/adminAddPatientMenu";
+		String forward = "/adminAddDoctorMenu";
 		try {
 			forward = command.execute(request, response);
 			session.setAttribute(SUCCESS_STRING, "Operation successful");

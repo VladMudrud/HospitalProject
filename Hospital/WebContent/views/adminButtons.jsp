@@ -20,6 +20,9 @@
    <form method="GET" action="${pageContext.request.contextPath}/adminAddPatientMenu">   
  	 <button>Add Patient</button>
    </form>
+      <form method="GET" action="${pageContext.request.contextPath}/adminAddDoctorMenu">   
+ 	 <button>Add Doctor</button>
+   </form>
    </div>
    </body>
    

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -130,10 +131,14 @@ public class UserController extends AbstractController<User, Integer> {
 			ps.setString(3, entity.getRole());
 			ps.execute();
 			return true;
+		} catch (SQLIntegrityConstraintViolationException e) {
+			log.error("Dublicate login", e);	
+			throw new SQLIntegrityConstraintViolationException("Dublicate login, please try another one");
 		} catch (SQLException e) {
 			log.error("Can not execute query", e);	
-			throw new SQLException("Can not execute query");
-		}
+			throw new SQLException("Can not execute query", e);
+		} 
+		
 	}
 	
 

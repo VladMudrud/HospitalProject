@@ -224,7 +224,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 		}
 	}
 
-	public synchronized boolean transactionPatientCreate(Patient patient) throws SQLException {
+	public boolean transactionPatientCreate(Patient patient) throws SQLException {
 		try {
 			getConnection().setAutoCommit(false);
 			if (!create(patient)) {
@@ -240,6 +240,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 			getConnection().setAutoCommit(true);
 		} catch (SQLException e) {
 			getConnection().rollback();
+			getConnection().setAutoCommit(true);
 			log.error("Can not execute transaction, rollback...", e);
 			throw new SQLException("Can not execute transaction");
 		}

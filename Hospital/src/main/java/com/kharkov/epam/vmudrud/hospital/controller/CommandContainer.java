@@ -21,7 +21,8 @@ public class CommandContainer {
 		commands.put("compTreatment", new CompTreatmentCommand());
 		commands.put("Logout", new LogoutCommand());
 		commands.put("Add patient", new AddPatient());
-
+		commands.put("noCommand", new NoCommand());
+		commands.put("Add doctor", new AddDoctor());
 	}
 
 

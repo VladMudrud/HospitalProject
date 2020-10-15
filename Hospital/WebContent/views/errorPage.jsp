@@ -8,8 +8,8 @@
 </head>
 <body>  
 <h3>Sorry an exception occured!</h3>  
+<h3>Command doesn't exist!</h3>  
   
-Exception is: <p style="color: red;">${errorString}</p>  
 
 </body>
 </html>

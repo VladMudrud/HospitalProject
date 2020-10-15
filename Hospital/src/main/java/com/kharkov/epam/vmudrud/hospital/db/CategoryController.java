@@ -70,4 +70,27 @@ public class CategoryController extends AbstractController<Category, Integer> {
 		return false;
 	}
 
+	public Category getEntityByTitle(String title) throws SQLException {
+		PreparedStatement pstm=null;
+		try {
+			pstm = getPrepareStatement(Query.SELECT_CATEGORY_BY_TITLE.value());
+			pstm.setString(1, title);
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				Integer id = rs.getInt("id");
+				Category category = new Category();
+				category.setId(id);
+				category.setTitle(title);
+				return category;
+			} 
+        } catch (SQLException e) {
+			log.error("Can not execute query", e);	
+			throw new SQLException("Can not execute query");
+		} finally {
+			closePrepareStatement(pstm);
+		}
+		log.error("Cann't find the category");	
+		throw new SQLException("Cann't find the category");
+	}
+
 }

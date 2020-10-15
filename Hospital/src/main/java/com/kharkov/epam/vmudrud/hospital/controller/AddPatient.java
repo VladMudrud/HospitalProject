@@ -28,8 +28,7 @@ public class AddPatient extends Command {
 			log.error("An error has occurred:" + e.getMessage());
 			throw new AppException(e.getMessage());
 		}
-		Patient patient = new Patient();
-		patient = buildPatientFromRequest(request);
+		Patient patient = buildPatientFromRequest(request);
 		PatientController patientController = null;
 		try {
 			patientController = new PatientController();
@@ -60,7 +59,6 @@ public class AddPatient extends Command {
 	}
 	
 	private void validatePatientDateFromRequest(HttpServletRequest request) throws AppException  {
-		request.getParameter("firstName");
 		if (request.getParameter("firstName") == null || request.getParameter("firstName").isEmpty()) {
 			throw new AppException("Please input first name correctly");
 		}

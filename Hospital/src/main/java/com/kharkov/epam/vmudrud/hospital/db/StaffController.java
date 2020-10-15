@@ -67,8 +67,16 @@ public class StaffController extends AbstractController<Staff, Integer> {
 
 	@Override
 	public boolean create(Staff entity) throws SQLException {
-		log.info("this empty");
-		return false;
+		PreparedStatement ps;
+		try {
+			ps = getPrepareStatement(Query.INSERT_STAFF.value());
+			ps.setInt(1, entity.getUser().getId());
+			ps.execute();
+			return true;
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);	
+			throw new SQLException("Can not execute query", e);
+		}
 	}
 
 	public Staff getEntityByUserId(Integer id) throws SQLException {
