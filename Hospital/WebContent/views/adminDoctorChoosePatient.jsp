@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/login.css">
  </head>
  <body>   
-    <form action="${pageContext.request.contextPath}/doctorsSort" method="POST">
+    <form action="${pageContext.request.contextPath}/adminDoctorChoose" method="GET">
  	<br>
     <label>Sort by:</label>
     <select name="sort" onchange="this.form.submit()">
@@ -20,6 +20,8 @@
     <br>
     <br>
     </form>
+    <form action="${pageContext.request.contextPath}/adminDoctorChoose" method="POST">
+    <input type="hidden" name="command" value="confirmDoctor"/>
     <table border="1">
        <tr>
           <th>First Name</th>
@@ -28,6 +30,8 @@
           <th>Gender</th>
           <th>Category</th>
           <th>Number of patients</th>
+          <th>Confirm</th>
+          
           
        </tr>
        
@@ -38,10 +42,13 @@
              <td>${doctor.age}</td>
              <td>${doctor.gender}</td>
              <td>${doctor.category.title}</td>
-             <td>${doctor.numberOfPatients}</td>             
+             <td>${doctor.numberOfPatients}</td>   
+             <td><button type="submit" name="doctor" value="${doctor.id}">OK</button></td> 
+                       
           </tr>
        </c:forEach>
     </table> 
+    </form>
     <p style="color: red;">${errorString}</p>
     
  </body>

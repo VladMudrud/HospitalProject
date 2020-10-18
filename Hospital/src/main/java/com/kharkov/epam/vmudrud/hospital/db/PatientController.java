@@ -88,7 +88,9 @@ public class PatientController extends AbstractController<Patient, Integer> {
 				patient.setAge(date);
 				patient.setGender(gender);
 				patient.setStatus(status);
+				if (doctorIdInteger != 0) {
 				patient.setDoctor(doctorController.getEntityById(doctorIdInteger));
+				}
 				return patient;
 			}
 		} catch (SQLException e) {
@@ -261,6 +263,20 @@ public class PatientController extends AbstractController<Patient, Integer> {
 		}
 		log.error("Cann't find the id");
 		throw new SQLException("Cann't find the id");
+	}
+
+	public Patient updateDoctor(Patient entity) throws SQLException {
+		PreparedStatement ps;
+		try {
+			ps = getPrepareStatement(Query.UPDATE_PATIENT_DOCTOR_ID.value());
+			ps.setInt(1, entity.getDoctor().getId());
+			ps.setInt(2, entity.getId());
+			ps.executeUpdate();
+			return entity;
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
+			throw new SQLException("Can not execute query");
+		}
 	}
 
 }

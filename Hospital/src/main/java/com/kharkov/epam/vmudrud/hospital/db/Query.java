@@ -6,12 +6,15 @@ public enum Query {
 	SELECT_ALL_MEDICAL_CARD("SELECT * FROM `medical_card`"),
 	SELECT_ALL_MY_MEDICAL_CARD("SELECT mc.id, mc.diagnosis, mc.patient_id  "
 			+ "FROM `medical card` mc join patient p on mc.patient_id=p.id join doctor d on p.doctor_id=d.id WHERE d.id=? and p.status!='Discharged from the hospital'"),
+	SELECT_ALL_PATIENT_WITHOUT_DOCTOR_MEDICAL_CARD("SELECT mc.id, mc.diagnosis, mc.patient_id  "
+			+ "FROM `medical card` mc join patient p on mc.patient_id=p.id WHERE p.doctor_id is null and p.status!='Discharged from the hospital'"),
 	SELECT_ALL_PATIENTS("SELECT * FROM patient WHERE status!='Discharged from the hospital'"),
 	SELECT_ALL_THERAPY("SELECT * FROM therapy WHERE status='in progress'"),
 	SELECT_ALL_THERAPY_NO_OPERATION("SELECT * FROM therapy WHERE status='in progress' and type!='operation'"),
 
 	UPDATE_MEDICAL_CART("UPDATE `medical card` SET `diagnosis` = ? WHERE (`patient_id` = ?)"),
 	UPDATE_PACIENT_STATUS("UPDATE patient SET `status` = ? WHERE (`id` = ?)"),
+	UPDATE_PATIENT_DOCTOR_ID("UPDATE `hospital`.`patient` SET `doctor_id` = ? WHERE (`id` = ?)"),
 	SELECT_ALL_MY_PATIENTS("SELECT * FROM patient WHERE doctor_id=? and status!='Discharged from the hospital'"),
 
 	INSERT_USER("INSERT INTO user (login, password, role) VALUES (?, ?, ?)"),

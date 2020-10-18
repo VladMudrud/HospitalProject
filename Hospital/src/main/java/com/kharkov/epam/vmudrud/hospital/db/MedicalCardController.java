@@ -197,4 +197,30 @@ public class MedicalCardController extends AbstractController<MedicalCard, Integ
 		log.error("Cann't find the medical card");	
 		throw new SQLException("Cann't find the medical card");
 	}
+	public List<MedicalCard> getAllMyMedicalCardSortedWithoutDoctor(String sort) throws SQLException {
+		PreparedStatement pstm=null;
+        List<MedicalCard> lst = new LinkedList<>();
+        sort=patientSort(sort);
+		try {
+			pstm = getPrepareStatement(Query.SELECT_ALL_PATIENT_WITHOUT_DOCTOR_MEDICAL_CARD.value() +sort);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+				MedicalCard medicalCard = new MedicalCard();
+				PatientController patientController = new PatientController(getConnectionPool(), getConnection());
+				Integer idMedicalCard =rs.getInt("id");
+				String diagnosis = rs.getString("diagnosis");
+				Integer patientId = rs.getInt("patient_id");
+				medicalCard.setId(idMedicalCard);
+				medicalCard.setDiagnosis(diagnosis);
+				medicalCard.setPatient(patientController.getEntityById(patientId));
+                lst.add(medicalCard);
+			} 
+        } catch (SQLException e) {
+			log.error("Can not execute query", e);	
+			throw new SQLException("Can not execute query");
+		} finally {
+			closePrepareStatement(pstm);
+		}
+        return lst;
+	}
 }

@@ -23,6 +23,11 @@ public class CommandContainer {
 		commands.put("Add patient", new AddPatient());
 		commands.put("noCommand", new NoCommand());
 		commands.put("Add doctor", new AddDoctor());
+		commands.put("sorting", new AdminPatientSorting());
+		commands.put("doctorChoose", new AdminDoctorChoose());
+		commands.put("confirmDoctor", new ConfirmDoctorCommand());
+
+
 	}
 
 
