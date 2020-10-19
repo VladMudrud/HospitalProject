@@ -84,7 +84,7 @@ public class DoctorChoosePatient extends HttpServlet {
         request.setAttribute(ERROR_STRING, session.getAttribute(ERROR_STRING));
         request.setAttribute("doctorList", list);
         session.setAttribute(ERROR_STRING, null);
-        request.setAttribute(SUCCESS_STRING, null);
+        session.setAttribute(SUCCESS_STRING, null);
 
         RequestDispatcher dispatcher = request.getServletContext()
                 .getRequestDispatcher("/views" + "/adminChooseDoctorMenu.jsp");

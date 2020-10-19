@@ -24,10 +24,10 @@ import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
 
 @WebServlet(urlPatterns = { "/patientView" })
 public class PatientViewServlet extends HttpServlet {
-	
+
 
 	private static final long serialVersionUID = 1718695257049236456L;
-	
+
 	private static final Logger log = Logger.getLogger(PatientViewServlet.class);
 
 	private static final String ERROR_STRING = "errorString";
@@ -50,12 +50,13 @@ public class PatientViewServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        Integer id = Integer.valueOf(request.getParameter("id"));
-    	log.trace("id ==> " + id);
-        if (id == null) {
-            response.sendRedirect(request.getContextPath() + "/myPatients");
+        if (request.getParameter("id") == null) {
+            RequestDispatcher dispatcher = request.getServletContext()
+                    .getRequestDispatcher("/myPatients");
+            dispatcher.forward(request, response);
             return;
         }
+        Integer id = Integer.valueOf(request.getParameter("id"));
         request.setAttribute("user", loginedUser);
         MedicalCardController medicalCardController = null;
         MedicalCard medicalCard = new MedicalCard();

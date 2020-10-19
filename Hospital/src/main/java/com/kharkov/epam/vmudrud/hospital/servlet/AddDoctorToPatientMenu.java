@@ -25,13 +25,13 @@ import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
 
 @WebServlet(urlPatterns = { "/adminAddDoctorToPatientMenu" })
 public class AddDoctorToPatientMenu extends HttpServlet {
-       
+
 	private static final Logger log = Logger.getLogger(AddDoctorToPatientMenu.class);
 
     private static final long serialVersionUID = 1L;
-    
+
 	private static final String ERROR_STRING = "errorString";
-	
+
 	private static final String SUCCESS_STRING = "successString";
 
     public AddDoctorToPatientMenu() {
@@ -73,7 +73,7 @@ public class AddDoctorToPatientMenu extends HttpServlet {
         request.setAttribute(SUCCESS_STRING, session.getAttribute(SUCCESS_STRING));
         request.setAttribute("medicalCardList", list);
         session.setAttribute(ERROR_STRING, null);
-        request.setAttribute(SUCCESS_STRING, null);
+        session.setAttribute(SUCCESS_STRING, null);
 
         RequestDispatcher dispatcher = request.getServletContext()
                 .getRequestDispatcher("/views/adminPatientToDoctorMenu.jsp");
@@ -114,7 +114,7 @@ public class AddDoctorToPatientMenu extends HttpServlet {
 		String id = request.getParameter("idPatient");
 		if (id != null) {
 			request.getSession().setAttribute("idPatient", id);
-		return "&idPatient=" + id;  
+		return "&idPatient=" + id;
 		} else {
 			return "";
 		}

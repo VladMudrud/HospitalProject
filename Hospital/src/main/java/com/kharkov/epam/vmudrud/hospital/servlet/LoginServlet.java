@@ -2,7 +2,7 @@ package com.kharkov.epam.vmudrud.hospital.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,7 +36,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
- 
     	log.info("doGet metod in login servlet is working");
     	HttpSession session = request.getSession();
         request.setAttribute(ERROR_STRING, session.getAttribute(ERROR_STRING));
