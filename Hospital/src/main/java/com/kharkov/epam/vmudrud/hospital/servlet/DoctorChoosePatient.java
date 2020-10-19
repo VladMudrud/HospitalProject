@@ -3,7 +3,6 @@ package com.kharkov.epam.vmudrud.hospital.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -104,7 +103,6 @@ public class DoctorChoosePatient extends HttpServlet {
 			return;
 		}
 		String role = loginedUser.getRole();
-		Map map = request.getParameterMap();
 		if (!role.equals("admin")) {
 			response.sendRedirect(request.getContextPath() + "/login");
 			return;
