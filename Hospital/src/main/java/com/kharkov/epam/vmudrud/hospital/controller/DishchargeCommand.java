@@ -22,31 +22,30 @@ public class DishchargeCommand extends Command {
 	private static final Logger log = Logger.getLogger(DishchargeCommand.class);
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws AppException {
-        HttpSession session = request.getSession();
-        User loginedUser = MyUtils.getLoginedUser(session);
-        Integer id = Integer.valueOf(request.getParameter("id"));
-        request.setAttribute("user", loginedUser);
-        Patient patient = new Patient();
-        PatientController patientController = null;
-        try {
-        	patientController = new PatientController();
-        	patient = patientController.getEntityById(id);
-        	patient.setStatus("Discharged from the hospital");
-        	patient = patientController.updateStatus(patient);
-        } catch (SQLException e) {
-            log.error("Problem with MySql server");
-            throw new AppException(e.getMessage());
-        } finally {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
+		HttpSession session = request.getSession();
+		User loginedUser = MyUtils.getLoginedUser(session);
+		Integer id = Integer.valueOf(request.getParameter("id"));
+		request.setAttribute("user", loginedUser);
+		Patient patient = new Patient();
+		PatientController patientController = null;
+		try {
+			patientController = new PatientController();
+			patient = patientController.getEntityById(id);
+			patient.setStatus("Discharged from the hospital");
+			patient = patientController.updateStatus(patient);
+		} catch (SQLException e) {
+			log.error("Problem with MySql server");
+			throw new AppException(e.getMessage());
+		} finally {
 			try {
 				patientController.returnConnectionInPool();
 			} catch (SQLException e) {
-	            log.error("Problem with returning connection to the poll");
-	            throw new AppException("Problem with returning connection to the poll");
+				log.error("Problem with returning connection to the poll");
+				throw new AppException("Problem with returning connection to the poll");
 			}
 		}
-        return "/patientView";
+		return "/patientView";
 	}
 
 }

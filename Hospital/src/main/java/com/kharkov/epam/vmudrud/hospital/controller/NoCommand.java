@@ -11,7 +11,7 @@ import com.kharkov.epam.vmudrud.hospital.exception.AppException;
 public class NoCommand extends Command {
 
 	private static final long serialVersionUID = -1203621351252872138L;
-	
+
 	private static final Logger log = Logger.getLogger(NoCommand.class);
 
 	@Override

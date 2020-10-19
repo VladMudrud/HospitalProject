@@ -2,6 +2,7 @@ package com.kharkov.epam.vmudrud.hospital.controller;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,11 +18,10 @@ import com.kharkov.epam.vmudrud.hospital.exception.AppException;
 
 public class AddDoctor extends Command {
 
-	 
 	private static final Logger log = Logger.getLogger(AddDoctor.class);
-		
+
 	private static final long serialVersionUID = 4578945386631647803L;
-	
+
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 		try {
@@ -36,17 +36,17 @@ public class AddDoctor extends Command {
 		try {
 			doctorController = new DoctorController();
 			doctorController.transactionDoctorCreate(doctor, user);
-        } catch (SQLException e) {
-            log.error("Problem with MySql", e);
-            throw new AppException(e.getMessage());
-        } finally {
+		} catch (SQLException e) {
+			log.error("Problem with MySql", e);
+			throw new AppException(e.getMessage());
+		} finally {
 			try {
 				doctorController.returnConnectionInPool();
 			} catch (SQLException e) {
-	            log.error("Problem with returning connection to the poll");
-	            throw new AppException("Problem with returning connection to the poll");
+				log.error("Problem with returning connection to the poll");
+				throw new AppException("Problem with returning connection to the poll");
 			}
-		} 
+		}
 		return "/adminAddDoctorMenu";
 	}
 
@@ -86,11 +86,16 @@ public class AddDoctor extends Command {
 			throw new AppException("Please input date of birth correctly");
 		}
 		try {
-		Date.valueOf(request.getParameter("dateOfBirth"));
+			Date.valueOf(request.getParameter("dateOfBirth"));
 		} catch (IllegalArgumentException e) {
 			throw new AppException("Please input date of birth correctly");
 		}
-		
+		Date dateOfBirth = Date.valueOf(request.getParameter("dateOfBirth"));
+		Date nowDate = Date.valueOf(LocalDate.now());
+		if (dateOfBirth.compareTo(nowDate) >= 0) {
+			throw new AppException("Please input date of birth correctly");
+		}
+
 	}
 
 }

@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
- pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+   pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="com.kharkov.epam.vmudrud.hospital.resources.text" />
 <!DOCTYPE html>
 <html>
  <head>
@@ -13,19 +17,19 @@
     <input type="hidden" name="type" id="type" value="compTreatment"> 
     <table border="1">
        <tr>
-          <th>Patient</th>
-          <th>Diagnosis</th>
-          <th>Treatment</th>
-          <th>Type</th>
-          <th>Action</th>
+          <th><fmt:message key="therapylist.lable.patient"/></th>
+          <th><fmt:message key="mypatientlist.lable.diagnosis"/></th>
+          <th><fmt:message key="therapylist.lable.treatment"/></th>
+          <th><fmt:message key="patientview.label.type"/></th>
+          <th><fmt:message key="therapylist.button.action"/></th>
        </tr>
        <c:forEach items="${therapyList}"  var="therapy" >
           <tr>
              <td>${therapy.medicalCard.patient.firstName} ${therapy.medicalCard.patient.secondName}</td>
              <td>${therapy.medicalCard.diagnosis}</td>
              <td>${therapy.title}</td>
-             <td>${therapy.type}</td>    
-             <td><button type="submit" name="id" value="${therapy.id}">Complete the treatment</button></td>                       
+             <td><fmt:message key="patientview.selecttherapy.${therapy.type}"/></td>    
+             <td><button type="submit" name="id" value="${therapy.id}"><fmt:message key="therapylist.button.complete"/></button></td>                       
           </tr>
           
        </c:forEach>

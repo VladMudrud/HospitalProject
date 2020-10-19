@@ -89,7 +89,7 @@ public class PatientController extends AbstractController<Patient, Integer> {
 				patient.setGender(gender);
 				patient.setStatus(status);
 				if (doctorIdInteger != 0) {
-				patient.setDoctor(doctorController.getEntityById(doctorIdInteger));
+					patient.setDoctor(doctorController.getEntityById(doctorIdInteger));
 				}
 				return patient;
 			}
@@ -234,7 +234,8 @@ public class PatientController extends AbstractController<Patient, Integer> {
 			}
 			Integer patientId = getLastInsertId();
 			patient.setId(patientId);
-			MedicalCardController medicalCardController = new MedicalCardController(getConnectionPool(), getConnection());
+			MedicalCardController medicalCardController = new MedicalCardController(getConnectionPool(),
+					getConnection());
 			MedicalCard medicalCard = new MedicalCard();
 			medicalCard.setPatient(patient);
 			medicalCardController.create(medicalCard);

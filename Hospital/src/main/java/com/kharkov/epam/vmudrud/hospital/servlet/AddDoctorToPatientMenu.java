@@ -22,65 +22,69 @@ import com.kharkov.epam.vmudrud.hospital.db.entity.User;
 import com.kharkov.epam.vmudrud.hospital.exception.AppException;
 import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
 
-
 @WebServlet(urlPatterns = { "/adminAddDoctorToPatientMenu" })
 public class AddDoctorToPatientMenu extends HttpServlet {
 
 	private static final Logger log = Logger.getLogger(AddDoctorToPatientMenu.class);
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	private static final String ERROR_STRING = "errorString";
 
 	private static final String SUCCESS_STRING = "successString";
 
-    public AddDoctorToPatientMenu() {
-        super();
-    }
+	public AddDoctorToPatientMenu() {
+		super();
+	}
 
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	log.info("doGet metod in adminAddDoctorToPatientMenu servlet is working");
-        HttpSession session = request.getSession();
-        session.setAttribute("idPatient", null);
-        User loginedUser = MyUtils.getLoginedUser(session);
-        if (loginedUser == null || !loginedUser.getRole().equals("admin")) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
-        String sort = request.getParameter("sort");
-        if (sort==null) {
-        	sort="alphabet";
-        }
-        request.setAttribute("user", loginedUser);
-        List<MedicalCard> list = null;
-        MedicalCardController medicalCardController = null;
-        try {
-        	medicalCardController = new MedicalCardController();
-            list = medicalCardController.getAllMyMedicalCardSortedWithoutDoctor(sort);
-        } catch (SQLException e) {
-            log.error("Problem with MySql server");
-        	session.setAttribute(ERROR_STRING, "Problem with MySql server:" + e.getMessage());
-        } finally {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		log.info("doGet metod in adminAddDoctorToPatientMenu servlet is working");
+		HttpSession session = request.getSession();
+		session.setAttribute("idPatient", null);
+		User loginedUser = MyUtils.getLoginedUser(session);
+		if (loginedUser == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		String role = loginedUser.getRole();
+		if (!role.equals("admin")) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		String sort = request.getParameter("sort");
+		if (sort == null) {
+			sort = "alphabet";
+		}
+		request.setAttribute("user", loginedUser);
+		List<MedicalCard> list = null;
+		MedicalCardController medicalCardController = null;
+		try {
+			medicalCardController = new MedicalCardController();
+			list = medicalCardController.getAllMyMedicalCardSortedWithoutDoctor(sort);
+		} catch (SQLException e) {
+			log.error("Problem with MySql server");
+			session.setAttribute(ERROR_STRING, "Problem with MySql server:" + e.getMessage());
+		} finally {
 			try {
 				medicalCardController.returnConnectionInPool();
 			} catch (SQLException e) {
-	            log.error("Problem with returning connection to the poll");
-	        	session.setAttribute(ERROR_STRING, "Problem with returning connection to the poll");
+				log.error("Problem with returning connection to the poll");
+				session.setAttribute(ERROR_STRING, "Problem with returning connection to the poll");
 			}
 		}
-        request.setAttribute(ERROR_STRING, session.getAttribute(ERROR_STRING));
-        request.setAttribute(SUCCESS_STRING, session.getAttribute(SUCCESS_STRING));
-        request.setAttribute("medicalCardList", list);
-        session.setAttribute(ERROR_STRING, null);
-        session.setAttribute(SUCCESS_STRING, null);
-
-        RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/views/adminPatientToDoctorMenu.jsp");
-        dispatcher.forward(request, response);
+		request.setAttribute(ERROR_STRING, session.getAttribute(ERROR_STRING));
+		request.setAttribute(SUCCESS_STRING, session.getAttribute(SUCCESS_STRING));
+		request.setAttribute("medicalCardList", list);
+		session.setAttribute(ERROR_STRING, null);
+		session.setAttribute(SUCCESS_STRING, null);
+		RequestDispatcher dispatcher = request.getServletContext()
+				.getRequestDispatcher("/views/adminPatientToDoctorMenu.jsp");
+		dispatcher.forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		log.info("doPost metod in adminAddDoctorToPatientMenu servlet is working");
 		HttpSession session = request.getSession();
 		session.setAttribute(ERROR_STRING, null);
@@ -109,12 +113,11 @@ public class AddDoctorToPatientMenu extends HttpServlet {
 		response.sendRedirect(request.getContextPath() + forward + id);
 	}
 
-
 	private String getPatientId(HttpServletRequest request) {
 		String id = request.getParameter("idPatient");
 		if (id != null) {
 			request.getSession().setAttribute("idPatient", id);
-		return "&idPatient=" + id;
+			return "&idPatient=" + id;
 		} else {
 			return "";
 		}

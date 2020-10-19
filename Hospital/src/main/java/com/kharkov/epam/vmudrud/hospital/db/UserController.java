@@ -16,57 +16,56 @@ import com.kharkov.epam.vmudrud.hospital.exception.AppException;
 import com.kharkov.epam.vmudrud.hospital.utils.PasswordHash;
 
 public class UserController extends AbstractController<User, Integer> {
-	
+
 	private static final Logger log = Logger.getLogger(UserController.class);
 
-
-    public UserController() throws SQLException {
+	public UserController() throws SQLException {
 		super();
 	}
-    
-    public UserController(ConnectionPool connectionPool, Connection connection) throws SQLException {
+
+	public UserController(ConnectionPool connectionPool, Connection connection) throws SQLException {
 		super(connectionPool, connection);
 	}
-    
+
 	@Override
-    public List<User> getAll() throws SQLException {
-        List<User> lst = new LinkedList<>();
-        PreparedStatement ps = null;
-        try {
-            ps = getPrepareStatement(Query.SELECT_ALL_USERS.value());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) { 
-                User user = new User();
-                user.setId(rs.getInt(1));
-                user.setLogin(rs.getString(2));
-                user.setPassword(rs.getString(3));
-                user.setRole(rs.getString(4));
-                lst.add(user);
-            }
-        } catch (SQLException e) {
-			log.error("Can not execute query", e);	
+	public List<User> getAll() throws SQLException {
+		List<User> lst = new LinkedList<>();
+		PreparedStatement ps = null;
+		try {
+			ps = getPrepareStatement(Query.SELECT_ALL_USERS.value());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				User user = new User();
+				user.setId(rs.getInt(1));
+				user.setLogin(rs.getString(2));
+				user.setPassword(rs.getString(3));
+				user.setRole(rs.getString(4));
+				lst.add(user);
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query");
-        } finally {
+		} finally {
 			closePrepareStatement(ps);
-        }
-        return lst;
-    }
+		}
+		return lst;
+	}
 
 	@Override
 	public User update(User entity) throws SQLException {
 		log.info("this empty");
 		return null;
 	}
-	
+
 	public User getUserByLoginAndPassword(String login, String password) throws SQLException, AppException {
-		PreparedStatement pstm=null;
+		PreparedStatement pstm = null;
 		try {
 			pstm = getPrepareStatement(Query.SELECT_USER_BY_LOGIN_AND_PASSWORD.value());
 			pstm.setString(1, login);
 			try {
-				password=PasswordHash.Hash(password);
+				password = PasswordHash.Hash(password);
 			} catch (NoSuchAlgorithmException e) {
-				log.error("Problem with hash function");	
+				log.error("Problem with hash function");
 				throw new AppException("Problem with hash function");
 			}
 			pstm.setString(2, password);
@@ -82,21 +81,20 @@ public class UserController extends AbstractController<User, Integer> {
 				user.setPassword(passwordReal);
 				user.setRole(roleReal);
 				return user;
-			} 
-        } catch (SQLException e) {
-			log.error("Can not execute query", e);	
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
-		log.error("Cann't find the user");	
+		log.error("Cann't find the user");
 		throw new AppException("Cann't find the user");
 	}
 
-
 	@Override
 	public User getEntityById(Integer id) throws SQLException {
-		PreparedStatement pstm=null;
+		PreparedStatement pstm = null;
 		try {
 			pstm = getPrepareStatement(Query.SELECT_USER_BY_ID.value());
 			pstm.setInt(1, id);
@@ -112,14 +110,14 @@ public class UserController extends AbstractController<User, Integer> {
 				user.setRole(role);
 
 				return user;
-			} 
-        } catch (SQLException e) {
-			log.error("Can not execute query", e);	
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
-		log.error("Cann't find the user");	
+		log.error("Cann't find the user");
 		throw new SQLException("Cann't find the user");
 	}
 
@@ -138,7 +136,7 @@ public class UserController extends AbstractController<User, Integer> {
 			try {
 				entity.setPassword(PasswordHash.Hash(entity.getPassword()));
 			} catch (NoSuchAlgorithmException e) {
-				log.error("Problem with hash function");	
+				log.error("Problem with hash function");
 				throw new SQLException("Problem with hash function");
 			}
 			ps.setString(2, entity.getPassword());
@@ -146,15 +144,13 @@ public class UserController extends AbstractController<User, Integer> {
 			ps.execute();
 			return true;
 		} catch (SQLIntegrityConstraintViolationException e) {
-			log.error("Dublicate login", e);	
+			log.error("Dublicate login", e);
 			throw new SQLIntegrityConstraintViolationException("Dublicate login, please try another one");
 		} catch (SQLException e) {
-			log.error("Can not execute query", e);	
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query", e);
-		} 
-		
-	}
-	
+		}
 
+	}
 
 }

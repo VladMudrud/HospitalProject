@@ -11,13 +11,13 @@ import org.apache.log4j.Logger;
 import com.kharkov.epam.vmudrud.hospital.db.entity.Staff;
 
 public class StaffController extends AbstractController<Staff, Integer> {
-	
+
 	private static final Logger log = Logger.getLogger(StaffController.class);
 
 	public StaffController() throws SQLException {
 		super();
 	}
-	
+
 	public StaffController(ConnectionPool connectionPool, Connection connection) throws SQLException {
 		super(connectionPool, connection);
 	}
@@ -36,7 +36,7 @@ public class StaffController extends AbstractController<Staff, Integer> {
 
 	@Override
 	public Staff getEntityById(Integer id) throws SQLException {
-		PreparedStatement pstm=null;
+		PreparedStatement pstm = null;
 		try {
 			pstm = getPrepareStatement(Query.SELECT_STAFF_BY_ID.value());
 			pstm.setInt(1, id);
@@ -48,14 +48,14 @@ public class StaffController extends AbstractController<Staff, Integer> {
 				staff.setId(id);
 				staff.setUser(userController.getEntityById(userId));
 				return staff;
-			} 
-        } catch (SQLException e) {
-			log.error("Can not execute query", e);	
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
-		log.error("Cann't find the staff");	
+		log.error("Cann't find the staff");
 		throw new SQLException("Cann't find the staff");
 	}
 
@@ -74,13 +74,13 @@ public class StaffController extends AbstractController<Staff, Integer> {
 			ps.execute();
 			return true;
 		} catch (SQLException e) {
-			log.error("Can not execute query", e);	
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query", e);
 		}
 	}
 
 	public Staff getEntityByUserId(Integer id) throws SQLException {
-		PreparedStatement pstm=null;
+		PreparedStatement pstm = null;
 		try {
 			pstm = getPrepareStatement(Query.SELECT_STAFF_BY_USER_ID.value());
 			pstm.setInt(1, id);
@@ -92,14 +92,14 @@ public class StaffController extends AbstractController<Staff, Integer> {
 				staff.setId(id);
 				staff.setUser(userController.getEntityById(userId));
 				return staff;
-			} 
-        } catch (SQLException e) {
-			log.error("Can not execute query", e);	
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
-		log.error("Cann't find the staff");	
+		log.error("Cann't find the staff");
 		throw new SQLException("Cann't find the staff");
 	}
 

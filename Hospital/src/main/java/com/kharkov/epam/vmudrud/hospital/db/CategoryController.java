@@ -11,13 +11,13 @@ import org.apache.log4j.Logger;
 import com.kharkov.epam.vmudrud.hospital.db.entity.Category;
 
 public class CategoryController extends AbstractController<Category, Integer> {
-	
+
 	private static final Logger log = Logger.getLogger(CategoryController.class);
 
 	public CategoryController() throws SQLException {
 		super();
 	}
-	
+
 	public CategoryController(ConnectionPool connectionPool, Connection connection) throws SQLException {
 		super(connectionPool, connection);
 	}
@@ -36,7 +36,7 @@ public class CategoryController extends AbstractController<Category, Integer> {
 
 	@Override
 	public Category getEntityById(Integer id) throws SQLException {
-		PreparedStatement pstm=null;
+		PreparedStatement pstm = null;
 		try {
 			pstm = getPrepareStatement(Query.SELECT_CATEGORY_BY_ID.value());
 			pstm.setInt(1, id);
@@ -47,14 +47,14 @@ public class CategoryController extends AbstractController<Category, Integer> {
 				category.setId(id);
 				category.setTitle(title);
 				return category;
-			} 
-        } catch (SQLException e) {
-			log.error("Can not execute query", e);	
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
-		log.error("Cann't find the category");	
+		log.error("Cann't find the category");
 		throw new SQLException("Cann't find the category");
 	}
 
@@ -71,7 +71,7 @@ public class CategoryController extends AbstractController<Category, Integer> {
 	}
 
 	public Category getEntityByTitle(String title) throws SQLException {
-		PreparedStatement pstm=null;
+		PreparedStatement pstm = null;
 		try {
 			pstm = getPrepareStatement(Query.SELECT_CATEGORY_BY_TITLE.value());
 			pstm.setString(1, title);
@@ -82,14 +82,14 @@ public class CategoryController extends AbstractController<Category, Integer> {
 				category.setId(id);
 				category.setTitle(title);
 				return category;
-			} 
-        } catch (SQLException e) {
-			log.error("Can not execute query", e);	
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query");
 		} finally {
 			closePrepareStatement(pstm);
 		}
-		log.error("Cann't find the category");	
+		log.error("Cann't find the category");
 		throw new SQLException("Cann't find the category");
 	}
 

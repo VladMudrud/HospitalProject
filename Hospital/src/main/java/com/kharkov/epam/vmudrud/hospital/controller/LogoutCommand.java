@@ -1,6 +1,5 @@
 package com.kharkov.epam.vmudrud.hospital.controller;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,15 +16,13 @@ public class LogoutCommand extends Command {
 
 	private static final Logger log = Logger.getLogger(LogoutCommand.class);
 
-	
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws AppException {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 		HttpSession session = request.getSession();
 		log.info("User: " + MyUtils.getLoginedUser(session) + " ==> logout");
-        MyUtils.storeLoginedUser(session, null);
-        MyUtils.deleteUserCookie(response);
-        return "/login";
+		MyUtils.storeLoginedUser(session, null);
+		MyUtils.deleteUserCookie(response);
+		return "/login";
 	}
 
 }

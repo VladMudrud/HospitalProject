@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 import com.kharkov.epam.vmudrud.hospital.db.entity.User;
 import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
 
-
 @WebServlet(urlPatterns = { "/myPatientsSort" })
 public class MyPatientSortServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -21,31 +20,32 @@ public class MyPatientSortServlet extends HttpServlet {
 
 	private static final String ERROR_STRING = "errorString";
 
-    public MyPatientSortServlet() {
-        super();
-    }
-
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	log.info("doGet metod in MyPatientSort servlet is working"); 
-        doPost(request, response);
+	public MyPatientSortServlet() {
+		super();
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-    	session.setAttribute(ERROR_STRING, null);
-    	log.info("doPost metod in MyPatientSort servlet is working"); 
-        User loginedUser = MyUtils.getLoginedUser(session);
-        if (loginedUser == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
-        if (!loginedUser.getRole().equals("doctor")) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
-        request.setAttribute("user", loginedUser);
-        response.sendRedirect(request.getContextPath() + "/myPatients" + "?sort=" + request.getParameter("sort"));
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		log.info("doGet metod in MyPatientSort servlet is working");
+		doPost(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		session.setAttribute(ERROR_STRING, null);
+		log.info("doPost metod in MyPatientSort servlet is working");
+		User loginedUser = MyUtils.getLoginedUser(session);
+		if (loginedUser == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		if (!loginedUser.getRole().equals("doctor")) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
+		request.setAttribute("user", loginedUser);
+		response.sendRedirect(request.getContextPath() + "/myPatients" + "?sort=" + request.getParameter("sort"));
 	}
 
 }

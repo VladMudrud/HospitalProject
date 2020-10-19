@@ -96,7 +96,7 @@ public class DoctorController extends AbstractController<Doctor, Integer> {
 			ps.execute();
 			return true;
 		} catch (SQLException e) {
-			log.error("Can not execute query", e);	
+			log.error("Can not execute query", e);
 			throw new SQLException("Can not execute query", e);
 		}
 	}
@@ -185,7 +185,7 @@ public class DoctorController extends AbstractController<Doctor, Integer> {
 			getConnection().rollback();
 			getConnection().setAutoCommit(true);
 			log.error("Can not execute transaction, rollback...", e);
-			log.error("Dublicate login");	
+			log.error("Dublicate login");
 			throw new SQLIntegrityConstraintViolationException("Dublicate login, please try another one");
 		} catch (SQLException e) {
 			getConnection().rollback();

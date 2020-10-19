@@ -2,6 +2,7 @@ package com.kharkov.epam.vmudrud.hospital.controller;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +16,8 @@ import com.kharkov.epam.vmudrud.hospital.exception.AppException;
 
 public class AddPatient extends Command {
 
- 
 	private static final Logger log = Logger.getLogger(AddPatient.class);
-	
+
 	private static final long serialVersionUID = 4578945386631647803L;
 
 	@Override
@@ -33,19 +33,19 @@ public class AddPatient extends Command {
 		try {
 			patientController = new PatientController();
 			patientController.transactionPatientCreate(patient);
-        } catch (SQLException e) {
-            log.error("Problem with MySql");
-            throw new AppException(e.getMessage());
-        } finally {
+		} catch (SQLException e) {
+			log.error("Problem with MySql");
+			throw new AppException(e.getMessage());
+		} finally {
 			try {
 				patientController.returnConnectionInPool();
 			} catch (SQLException e) {
-	            log.error("Problem with returning connection to the poll");
-	            throw new AppException("Problem with returning connection to the poll");
+				log.error("Problem with returning connection to the poll");
+				throw new AppException("Problem with returning connection to the poll");
 			}
-		} 
+		}
 		return "/adminAddPatientMenu";
-        
+
 	}
 
 	private Patient buildPatientFromRequest(HttpServletRequest request) {
@@ -57,8 +57,8 @@ public class AddPatient extends Command {
 		patient.setStatus("Hospital treatment");
 		return patient;
 	}
-	
-	private void validatePatientDateFromRequest(HttpServletRequest request) throws AppException  {
+
+	private void validatePatientDateFromRequest(HttpServletRequest request) throws AppException {
 		if (request.getParameter("firstName") == null || request.getParameter("firstName").isEmpty()) {
 			throw new AppException("Please input first name correctly");
 		}
@@ -69,8 +69,13 @@ public class AddPatient extends Command {
 			throw new AppException("Please input date of birth correctly");
 		}
 		try {
-		Date.valueOf(request.getParameter("dateOfBirth"));
+			Date.valueOf(request.getParameter("dateOfBirth"));
 		} catch (IllegalArgumentException e) {
+			throw new AppException("Please input date of birth correctly");
+		}
+		Date dateOfBirth = Date.valueOf(request.getParameter("dateOfBirth"));
+		Date nowDate = Date.valueOf(LocalDate.now());
+		if (dateOfBirth.compareTo(nowDate) >= 0) {
 			throw new AppException("Please input date of birth correctly");
 		}
 	}

@@ -17,6 +17,6 @@ public abstract class Entity implements Serializable {
 	}
 
 	public String toString() {
-		return "Person [id=" + id +"]";
+		return "Person [id=" + id + "]";
 	}
 }

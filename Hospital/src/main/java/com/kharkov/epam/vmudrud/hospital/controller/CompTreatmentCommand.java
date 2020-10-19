@@ -22,45 +22,41 @@ import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
 
 public class CompTreatmentCommand extends Command {
 
-
 	private static final long serialVersionUID = -8343920846779789396L;
-
 
 	private static final Logger log = Logger.getLogger(CompTreatmentCommand.class);
 
-	
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws AppException {
-        HttpSession session = request.getSession();
-        User loginedUser = MyUtils.getLoginedUser(session);
-        Integer id = Integer.valueOf(request.getParameter("id"));
-        request.setAttribute("user", loginedUser);
-        TherapyController therapyController = null;
-    	StaffController staffController = null;
-        Therapy therapy = new Therapy();
-        Staff staff = new Staff();
-        try {
-        	ConnectionPool connectionPool =ConnectionPool.getInstance();
-        	Connection connection = connectionPool.getConnection();
-        	therapyController = new TherapyController(connectionPool, connection);
-        	staffController = new StaffController(connectionPool, connection);
-        	therapy = therapyController.getEntityById(id);
-        	staff = staffController.getEntityByUserId(loginedUser.getId());
-        	therapyController.done(therapy, staff);
-        } catch (SQLException | NamingException e) {
-            log.error("Problem with MySql server");
-            throw new AppException(e.getMessage());
-        } finally {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
+		HttpSession session = request.getSession();
+		User loginedUser = MyUtils.getLoginedUser(session);
+		Integer id = Integer.valueOf(request.getParameter("id"));
+		request.setAttribute("user", loginedUser);
+		TherapyController therapyController = null;
+		StaffController staffController = null;
+		Therapy therapy = new Therapy();
+		Staff staff = new Staff();
+		try {
+			ConnectionPool connectionPool = ConnectionPool.getInstance();
+			Connection connection = connectionPool.getConnection();
+			therapyController = new TherapyController(connectionPool, connection);
+			staffController = new StaffController(connectionPool, connection);
+			therapy = therapyController.getEntityById(id);
+			staff = staffController.getEntityByUserId(loginedUser.getId());
+			therapyController.done(therapy, staff);
+		} catch (SQLException | NamingException e) {
+			log.error("Problem with MySql server");
+			throw new AppException(e.getMessage());
+		} finally {
 			try {
 				therapyController.returnConnectionInPool();
 			} catch (SQLException e) {
-	            log.error("Problem with returning connection to the poll");
-	            throw new AppException("Problem with returning connection to the poll");
+				log.error("Problem with returning connection to the poll");
+				throw new AppException("Problem with returning connection to the poll");
 			}
 		}
-        request.setAttribute("medicalCard", therapy);
-        return "/therapy";
+		request.setAttribute("medicalCard", therapy);
+		return "/therapy";
 	}
 
 }

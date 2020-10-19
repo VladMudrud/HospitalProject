@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="com.kharkov.epam.vmudrud.hospital.resources.text" />
 <!DOCTYPE html>
 <html>
    <head>
@@ -11,47 +16,49 @@
    <form method="POST" action="${pageContext.request.contextPath}/adminAddDoctorMenu">   
         <p style="color: red;">${errorString}</p>  
         <p style="color: green;">${successString}</p>  
-        <label><strong>Login:</strong>    
+        <label><strong><fmt:message key="login.label.username"/>:</strong>    
         </label>    
-        <input type="text" name="login" id="login" placeholder="Login" required>    
+        <input type="text" name="login" id="login" placeholder=<fmt:message key="login.label.username"/> required>    
         <br><br>    
-        <label><strong>Password:    
+        <label><strong><fmt:message key="login.label.password"/>:    
         </strong>    
         </label>    
         <input type="password" name="password" id="password" required>  
         <br><br>   
-        <label><strong>First Name:</strong>    
+        <label><strong><fmt:message key="patientlist.lable.firstname"/>:</strong>    
         </label>    
-        <input type="text" name="firstName" id="firstName" placeholder="First Name" required>    
+        <input type="text" name="firstName" id="firstName" placeholder=<fmt:message key="patientlist.lable.firstname"/> required>    
         <br><br>    
-        <label><strong>Second name:    
+        <label><strong><fmt:message key="patientlist.lable.secondname"/>:    
         </strong>    
         </label>    
-        <input type="text" name="secondName" id="secondName" placeholder="Second name" required>  
+        <input type="text" name="secondName" id="secondName" placeholder=<fmt:message key="patientlist.lable.secondname"/> required>  
         <br><br>   
-		<label><strong>Date of Birth:    
+		<label><strong><fmt:message key="patientlist.lable.dateofbirhday"/>:    
         </strong>    
         </label>    
-        <input type="date" name="dateOfBirth" id="dateOfBirth" placeholder="YYYY-MM-DD" required>  
+        <input type="date"  max="2020-10-20" name="dateOfBirth" id="dateOfBirth" placeholder="YYYY-MM-DD" required>  
         <br><br> 
-        <label><strong>Gender:    
+        <label><strong><fmt:message key="patientlist.lable.gender"/>:    
         </strong>    
         </label> 
         <select name="gender" id="gender">
-        	<option value="male">Male</option>
-        	<option value="female">Female</option>
+        	<option value="male"><fmt:message key="patientlist.lable.male"/></option>
+        	<option value="female"><fmt:message key="patientlist.lable.female"/></option>
    		</select>
    		<br><br> 
-        <label><strong>Category:    
+        <label><strong><fmt:message key="doctorlist.select.category"/>:    
         </strong>    
         </label> 
    		<select name="category" id="category">
-        	<option value="Therapist">Therapist</option>
-        	<option value="Surgeon">Surgeon</option>
-        	<option value="Traumatologist">Traumatologist</option>
+        	<option value="Therapist"><fmt:message key="admin.select.therapist"/></option>
+        	<option value="Surgeon"><fmt:message key="admin.select.surgeon"/></option>
+        	<option value="Traumatologist"><fmt:message key="admin.select.traumatologist"/></option>
    		</select>
    		<br><br> 
-        <input type="submit" name="command" id="addDoctor" value="Add doctor">       
+        <input type="submit" name="button" id="button" value=<fmt:message key="adminbuttons.lable.adddoctor"/>>      
+        <input type="hidden" name="command" value="Add doctor"/>
+         
     </form>        
    </body>
    

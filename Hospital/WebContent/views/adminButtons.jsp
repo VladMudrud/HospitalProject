@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="com.kharkov.epam.vmudrud.hospital.resources.text" />
 <!DOCTYPE html>
 <html>
    <head>
@@ -12,19 +17,19 @@
    <body style="background: White">
    <div class="btn-group">
    <form method="GET" action="${pageContext.request.contextPath}/patientList?sort=alphabet">   
- 	 <button>Patient List</button>
+ 	 <button><fmt:message key="doctorbuttons.lable.patientlist"/></button>
    </form>
       <form method="GET" action="${pageContext.request.contextPath}/doctorList?sort=alphabet">   
- 	 <button>Doctor List</button>
+ 	 <button><fmt:message key="adminbuttons.lable.doctorlist"/></button>
    </form>
    <form method="GET" action="${pageContext.request.contextPath}/adminAddPatientMenu">   
- 	 <button>Add Patient</button>
+ 	 <button><fmt:message key="adminbuttons.lable.addpatient"/></button>
    </form>
       <form method="GET" action="${pageContext.request.contextPath}/adminAddDoctorMenu">   
- 	 <button>Add Doctor</button>
+ 	 <button><fmt:message key="adminbuttons.lable.adddoctor"/></button>
    </form>
    <form method="GET" action="${pageContext.request.contextPath}/adminAddDoctorToPatientMenu">   
- 	 <button>Add Doctor to Patient</button>
+ 	 <button><fmt:message key="adminbuttons.lable.adddoctortopatient"/></button>
    </form>
    </div>
    </body>

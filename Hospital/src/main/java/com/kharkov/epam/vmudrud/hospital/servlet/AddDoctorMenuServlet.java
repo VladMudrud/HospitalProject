@@ -18,24 +18,23 @@ import com.kharkov.epam.vmudrud.hospital.db.entity.User;
 import com.kharkov.epam.vmudrud.hospital.exception.AppException;
 import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
 
-
 @WebServlet(urlPatterns = { "/adminAddDoctorMenu" })
 public class AddDoctorMenuServlet extends HttpServlet {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final Logger log = Logger.getLogger(AddDoctorMenuServlet.class);
-	
+
 	private static final String ERROR_STRING = "errorString";
-	
-	private static final String SUCCESS_STRING = "successString";       
 
-    public AddDoctorMenuServlet() {
-        super();
-    }
+	private static final String SUCCESS_STRING = "successString";
 
+	public AddDoctorMenuServlet() {
+		super();
+	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		log.info("doGet metod in adminAddDoctorMenu servlet is working");
 		HttpSession session = request.getSession();
 		User loginedUser = MyUtils.getLoginedUser(session);
@@ -58,8 +57,8 @@ public class AddDoctorMenuServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		log.info("doPost metod in adminAddDoctorMenu servlet is working");
 		HttpSession session = request.getSession();
 		session.setAttribute(ERROR_STRING, null);

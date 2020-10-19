@@ -21,44 +21,41 @@ import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
 
 public class TherapyCommand extends Command {
 
-
 	private static final long serialVersionUID = -4771248333475442473L;
-	
+
 	private static final Logger log = Logger.getLogger(TherapyCommand.class);
 
-
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws AppException {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 		HttpSession session = request.getSession();
-        User loginedUser = MyUtils.getLoginedUser(session);
-        request.setAttribute("user", loginedUser);
-        Integer medicalCardId=Integer.valueOf(request.getParameter("medicalCardId"));
-        TherapyController therapyController = null;
-        MedicalCardController medicalCardController = null;
-        Therapy therapy = new Therapy();
-        therapy.setTitle(request.getParameter("title"));
-        therapy.setType(request.getParameter("therapyType"));
-        therapy.setStatus("in progress");
-        try {
-        	ConnectionPool connectionPool = ConnectionPool.getInstance();
-        	Connection connection = connectionPool.getConnection();
-        	therapyController = new TherapyController(connectionPool, connection);
-        	medicalCardController = new MedicalCardController(connectionPool, connection);
-        	therapy.setMedicalCard(medicalCardController.getEntityById(medicalCardId));
-        	therapyController.create(therapy);
-        } catch (SQLException | NamingException e) {
-            log.error("Problem with MySql server");
-            throw new AppException(e.getMessage());
-        } finally {
+		User loginedUser = MyUtils.getLoginedUser(session);
+		request.setAttribute("user", loginedUser);
+		Integer medicalCardId = Integer.valueOf(request.getParameter("medicalCardId"));
+		TherapyController therapyController = null;
+		MedicalCardController medicalCardController = null;
+		Therapy therapy = new Therapy();
+		therapy.setTitle(request.getParameter("title"));
+		therapy.setType(request.getParameter("therapyType"));
+		therapy.setStatus("in progress");
+		try {
+			ConnectionPool connectionPool = ConnectionPool.getInstance();
+			Connection connection = connectionPool.getConnection();
+			therapyController = new TherapyController(connectionPool, connection);
+			medicalCardController = new MedicalCardController(connectionPool, connection);
+			therapy.setMedicalCard(medicalCardController.getEntityById(medicalCardId));
+			therapyController.create(therapy);
+		} catch (SQLException | NamingException e) {
+			log.error("Problem with MySql server");
+			throw new AppException(e.getMessage());
+		} finally {
 			try {
 				medicalCardController.returnConnectionInPool();
 			} catch (SQLException e) {
-	            log.error("Problem with returning connection to the poll");
-	            throw new AppException("Problem with returning connection to the poll");
+				log.error("Problem with returning connection to the poll");
+				throw new AppException("Problem with returning connection to the poll");
 			}
 		}
-        return "/patientView";
+		return "/patientView";
 	}
 
 }

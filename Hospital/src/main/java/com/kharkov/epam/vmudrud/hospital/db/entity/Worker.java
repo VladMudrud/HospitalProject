@@ -29,7 +29,8 @@ public class Worker extends Person {
 	
 	@Override
 	public String toString() {
-		return "Worker [" + "id=" + id + ", firstName=" + firstName + ", secondName=" + secondName + ", age="  + age + ", gender="+ gender + ", staff=" + staff +"]";
+		return "Worker [" + "id=" + id + ", firstName=" + firstName + ", secondName=" + secondName + ", age=" + age
+				+ ", gender="+ gender + ", staff=" + staff +"]";
 	}
 	
 	

@@ -16,7 +16,7 @@
     <h2 class="title">Hospital</h2><br>    
     <div class="login">    
     <form>
-             <select id="language" name="language" onchange="submit()">
+             <select id="language" name="language" style="position: absolute; top: 5px; right: 5px;" onchange="submit()">
                  <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
                  <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
              </select>
@@ -39,7 +39,7 @@
         <strong><fmt:message key="login.checkbox.remember"/></strong>    
         <br><br>    
     </form>     
-</div>
+	</div>
    </body>
    
 </html>
