@@ -39,7 +39,7 @@
         <strong><fmt:message key="login.checkbox.remember"/></strong>    
         <br><br>    
     </form>     
-	</div>
+	</div>	
    </body>
    
 </html>

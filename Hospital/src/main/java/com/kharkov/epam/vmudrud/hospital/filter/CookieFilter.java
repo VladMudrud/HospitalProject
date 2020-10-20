@@ -1,7 +1,6 @@
 package com.kharkov.epam.vmudrud.hospital.filter;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.servlet.Filter;
@@ -50,9 +49,8 @@ public class CookieFilter implements Filter {
 			chain.doFilter(request, response);
 			return;
 		}
-		Connection conn = MyUtils.getStoredConnection(request);
 		String checked = (String) session.getAttribute("COOKIE_CHECKED");
-		if (checked == null && conn != null) {
+		if (checked == null) {
 			String userId;
 			try {
 				userId = MyUtils.getUserIdInCookie(req);
