@@ -21,8 +21,10 @@
         <option value="alphabet"><fmt:message key="patientlist.select.alphabet"/></option>
         <option value="date"><fmt:message key="patientlist.select.date"/></option>
     </select>
+    <c:if test="${user.role eq 'admin'}"><h3>The number of operations in the hospital: ${count}</h3></c:if>    
     <br>
     <br>
+    
     <table border="1" >
        <tr>
           <th><fmt:message key="patientlist.lable.firstname"/></th>

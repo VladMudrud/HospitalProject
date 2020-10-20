@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.kharkov.epam.vmudrud.hospital.db.MedicalCardController;
+import com.kharkov.epam.vmudrud.hospital.db.UserController;
 import com.kharkov.epam.vmudrud.hospital.db.entity.MedicalCard;
 import com.kharkov.epam.vmudrud.hospital.db.entity.User;
 import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
@@ -50,15 +51,18 @@ public class MyPatientsServlet extends HttpServlet {
 		request.setAttribute("user", loginedUser);
 		List<MedicalCard> list = null;
 		MedicalCardController medicalCardController = null;
+		UserController userController = null;
 		try {
 			medicalCardController = new MedicalCardController();
-			list = medicalCardController.getAllMyMedicalCardSorted(loginedUser.getId(), sort);
+			userController = new UserController();
+			list = medicalCardController.getAllMyMedicalCardSorted(userController.getDoctorByUserId(loginedUser.getId()), sort);
 		} catch (SQLException e) {
 			log.error("Problem with MySql server");
 			session.setAttribute(ERROR_STRING, "Problem with MySql server:" + e.getMessage());
 		} finally {
 			try {
 				medicalCardController.returnConnectionInPool();
+				userController.returnConnectionInPool();
 			} catch (SQLException e) {
 				log.error("Problem with returning connection to the poll");
 				session.setAttribute(ERROR_STRING, "Problem with returning connection to the poll");
@@ -67,7 +71,6 @@ public class MyPatientsServlet extends HttpServlet {
 		request.setAttribute(ERROR_STRING, session.getAttribute(ERROR_STRING));
 		request.setAttribute("patientList", list);
 		session.setAttribute(ERROR_STRING, null);
-
 		RequestDispatcher dispatcher = request.getServletContext()
 				.getRequestDispatcher("/views/doctorMenuMyPatients.jsp");
 		dispatcher.forward(request, response);

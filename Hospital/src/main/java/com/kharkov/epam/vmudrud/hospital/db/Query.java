@@ -40,7 +40,9 @@ public enum Query {
 	SELECT_LAST_ID("SELECT LAST_INSERT_ID()"),
 	INSERT_MEDICAL_CARD("INSERT INTO `hospital`.`medical card` (`patient_id`) VALUES (?);"),
 	INSERT_STAFF("INSERT INTO `hospital`.`staff` (`user_id`) VALUES (?)"), INSERT_DOCTOR(
-			"INSERT INTO `hospital`.`doctor` (`first_name`, `second_name`, `age`, `gender`, `staff_id`, `category_id`) VALUES (?, ?, ?, ?, ?, ?)");
+			"INSERT INTO `hospital`.`doctor` (`first_name`, `second_name`, `age`, `gender`, `staff_id`, `category_id`) VALUES (?, ?, ?, ?, ?, ?)"),
+	SELECT_DOCTOR_ID_BY_USER_ID("Select d.id FROM doctor d join staff s on d.staff_id=s.id join `user` u on s.user_id=u.id WHERE u.id=?" ),
+	SELECT_COUNT_OF_OPERATIONS("SELECT count(id) as count FROM therapy WHERE `type` = 'operation' and `status` = 'in progress'" );
 
 	private String value;
 

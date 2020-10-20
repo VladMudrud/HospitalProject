@@ -153,4 +153,24 @@ public class UserController extends AbstractController<User, Integer> {
 
 	}
 
+	public Integer getDoctorByUserId(Integer id) throws SQLException {
+		PreparedStatement pstm = null;
+		try {
+			pstm = getPrepareStatement(Query.SELECT_DOCTOR_ID_BY_USER_ID.value());
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				Integer doctorIdInteger=rs.getInt("id");
+				return doctorIdInteger;
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
+			throw new SQLException("Can not execute query");
+		} finally {
+			closePrepareStatement(pstm);
+		}
+		log.error("Cann't find the user");
+		throw new SQLException("Cann't find the user");
+	}
+
 }

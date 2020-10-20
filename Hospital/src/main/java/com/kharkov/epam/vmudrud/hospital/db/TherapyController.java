@@ -179,4 +179,23 @@ public class TherapyController extends AbstractController<Therapy, Integer> {
 		}
 		return lst;
 	}
+
+	public Integer getCountOfOperations() throws SQLException {
+		PreparedStatement pstm = null;
+		try {
+			pstm = getPrepareStatement(Query.SELECT_COUNT_OF_OPERATIONS.value());
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next()) {
+				Integer count=rs.getInt("count");
+				return count;
+			}
+		} catch (SQLException e) {
+			log.error("Can not execute query", e);
+			throw new SQLException("Can not execute query");
+		} finally {
+			closePrepareStatement(pstm);
+		}
+		log.error("Cann't find the user");
+		throw new SQLException("Cann't find the user");
+	}
 }

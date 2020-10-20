@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.kharkov.epam.vmudrud.hospital.db.PatientController;
+import com.kharkov.epam.vmudrud.hospital.db.TherapyController;
 import com.kharkov.epam.vmudrud.hospital.db.entity.Patient;
 import com.kharkov.epam.vmudrud.hospital.db.entity.User;
 import com.kharkov.epam.vmudrud.hospital.utils.MyUtils;
@@ -28,6 +29,9 @@ public class PatientListServlet extends HttpServlet {
 
 	private static final String ERROR_STRING = "errorString";
 
+	private static final String COUNT = "count";
+
+
 	public PatientListServlet() {
 		super();
 	}
@@ -37,7 +41,6 @@ public class PatientListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		log.info("doGet metod in patient list servlet is working");
 		HttpSession session = request.getSession();
-
 		User loginedUser = MyUtils.getLoginedUser(session);
 		if (loginedUser == null) {
 			response.sendRedirect(request.getContextPath() + "/login");
@@ -55,24 +58,29 @@ public class PatientListServlet extends HttpServlet {
 		}
 		List<Patient> list = null;
 		PatientController patientController = null;
+		TherapyController therapyController = null;
+		Integer countOfOperations = 0;
 		try {
 			patientController = new PatientController();
+			therapyController = new TherapyController();
 			list = patientController.getAllOrdered(sort);
+			countOfOperations = therapyController.getCountOfOperations();
 		} catch (SQLException e) {
 			log.error("Problem with MySql server");
 			session.setAttribute(ERROR_STRING, "Problem with MySql server:" + e.getMessage());
 		} finally {
 			try {
 				patientController.returnConnectionInPool();
+				therapyController.returnConnectionInPool();
 			} catch (SQLException e) {
 				log.error("Problem with returning connection to the poll");
 				session.setAttribute(ERROR_STRING, "Problem with returning connection to the poll");
 			}
 		}
+		request.setAttribute(COUNT, countOfOperations);
 		request.setAttribute(ERROR_STRING, session.getAttribute(ERROR_STRING));
 		request.setAttribute("patientList", list);
 		session.setAttribute(ERROR_STRING, null);
-
 		String menu = getMenuByRole(role);
 		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/views" + menu);
 		dispatcher.forward(request, response);
